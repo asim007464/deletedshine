@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+/* --- THEME CONFIGURATION (Replacing tailwind.config.js) --- */
+@theme {
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --color-brand-blue: #448cff;
+}
+
+/* --- CUSTOM COMPONENTS --- */
+@layer components {
+  .form-input {
+    width: 100%;
+    padding: 1rem; /* p-4 */
+    border: 1px solid #9ca3af; /* border-gray-400 */
+    border-radius: 0.125rem; /* rounded-sm */
+    outline: none;
+    background-color: white;
+    transition: all 0.2s;
+    font-weight: 500;
+    color: #334155;
+  }
+
+  .form-input:focus {
+    border-color: #448cff;
+    box-shadow: 0 0 0 4px rgba(68, 140, 255, 0.1);
+  }
+}
