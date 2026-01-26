@@ -19,9 +19,9 @@ const Home = () => {
             <span className="text-[#448cff]">Reliable Cleaners</span>
           </h1>
           <p className="text-gray-400 text-lg md:text-xl font-medium leading-relaxed mb-12 max-w-3xl mx-auto">
-            Join a progressive cleaning company in London. We offer flexible
-            daytime hours and the chance to work independently while feeling
-            supported by a great team.
+            Join a progressive cleaning company Expanding into all borroughs of
+            London. We offer flexible daytime hours and the chance to work
+            independently while feeling supported by a great team.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link

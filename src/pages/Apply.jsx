@@ -6,6 +6,8 @@ import {
   User,
   Mail,
   MapPin,
+  Sparkles,
+  Info,
   Briefcase,
 } from "lucide-react";
 import Navbar from "../Components/Homecomponents/Navbar";
@@ -158,7 +160,7 @@ const Apply = () => {
           {/* Section 1: Personal Details */}
           <div className="space-y-8">
             <h2 className="text-xl font-black uppercase border-b-2 border-slate-100 pb-4">
-              01. Personal Details
+              Personal Details
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <InputGroup
@@ -183,7 +185,7 @@ const Apply = () => {
                   Your Gender (Optional)
                 </label>
                 <select
-                  className="w-full p-4 border border-gray-400 rounded-sm outline-none focus:border-[#448cff] bg-white font-bold text-slate-700 appearance-none cursor-pointer"
+                  className="w-full p-4 border border-gray-300 rounded-sm outline-none focus:border-[#448cff] bg-white font-bold text-slate-700 appearance-none cursor-pointer"
                   value={formData.gender}
                   onChange={(e) => updateField("gender", e.target.value)}
                 >
@@ -217,7 +219,7 @@ const Apply = () => {
           {/* Section 2: Experience */}
           <div className="space-y-8">
             <h2 className="text-xl font-black uppercase border-b-2 border-slate-100 pb-4">
-              02. Experience
+              Experience
             </h2>
             <div className="space-y-6">
               <label className="text-xs font-black uppercase text-slate-400 tracking-widest">
@@ -233,7 +235,7 @@ const Apply = () => {
                     key={lvl}
                     type="button"
                     onClick={() => updateField("experienceLevel", lvl)}
-                    className={`p-4 border-2 rounded-sm font-black uppercase text-xs tracking-widest transition-all ${formData.experienceLevel === lvl ? "border-[#448cff] bg-blue-50 text-[#448cff]" : "border-gray-400 text-slate-400"}`}
+                    className={`p-4 border-2 rounded-sm font-black uppercase text-xs tracking-widest transition-all ${formData.experienceLevel === lvl ? "border-[#448cff] bg-blue-50 text-[#448cff]" : "border-gray-300 text-slate-400"}`}
                   >
                     {lvl}
                   </button>
@@ -255,10 +257,18 @@ const Apply = () => {
                   <div
                     key={type}
                     onClick={() => toggleExpType(type)}
-                    className={`flex items-center gap-3 p-3 border rounded-sm cursor-pointer transition-all ${formData.experienceTypes.includes(type) ? "border-[#448cff] bg-blue-50" : "border-gray-300"}`}
+                    className={`flex items-center gap-3 p-3 border rounded-sm cursor-pointer transition-all ${
+                      formData.experienceTypes.includes(type)
+                        ? "border-[#448cff] bg-blue-50"
+                        : "border-gray-300"
+                    }`}
                   >
                     <div
-                      className={`w-4 h-4 border flex items-center justify-center ${formData.experienceTypes.includes(type) ? "bg-[#448cff] border-[#448cff]" : "border-gray-400"}`}
+                      className={`w-4 h-4 border flex items-center justify-center ${
+                        formData.experienceTypes.includes(type)
+                          ? "bg-[#448cff] border-[#448cff]"
+                          : "border-gray-300"
+                      }`}
                     >
                       {formData.experienceTypes.includes(type) && (
                         <Check
@@ -274,23 +284,41 @@ const Apply = () => {
                   </div>
                 ))}
               </div>
+
+              {/* --- NEW: Conditional Input for "Other" --- */}
+              {formData.experienceTypes.includes("Other") && (
+                <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <label className="text-[12px] font-black  uppercase text-[#448cff]  mb-1.5 block">
+                    Please specify your expertise
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Window cleaning, Industrial cleaning, etc."
+                    className="w-full p-4 border border-gray-300 rounded-sm outline-none focus:border-[#448cff] transition-all font-bold text-slate-700 bg-white"
+                    value={formData.otherCleaningType}
+                    onChange={(e) =>
+                      updateField("otherCleaningType", e.target.value)
+                    }
+                  />
+                </div>
+              )}
             </div>
           </div>
 
           {/* Section 3: Availability */}
           <div className="space-y-8">
             <h2 className="text-xl font-black uppercase border-b-2 border-slate-100 pb-4">
-              03. Weekly Availability (7am - 8pm)
+              Weekly Availability (7am - 8pm)
             </h2>
             <p className="text-sm text-slate-500 italic">
               State availability for each day. Requirements are up to 6 hours
-              per day.
+              per day. Please click on check box.
             </p>
             <div className="space-y-4">
               {Object.keys(formData.availability).map((day) => (
                 <div
                   key={day}
-                  className={`border rounded-sm p-6 transition-all ${formData.availability[day].enabled ? "border-gray-400 bg-white shadow-md" : "border-gray-200 bg-slate-50 opacity-60"}`}
+                  className={`border rounded-sm p-6 transition-all ${formData.availability[day].enabled ? "border-gray-300 bg-white shadow-md" : "border-gray-200 bg-slate-50 opacity-60"}`}
                 >
                   <div className="flex justify-between items-center mb-6">
                     <span className="font-black uppercase text-sm">{day}</span>
@@ -314,22 +342,30 @@ const Apply = () => {
                   </div>
 
                   {formData.availability[day].enabled && (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in zoom-in-95">
-                      {[1, 2, 3].map((num) => (
-                        <div key={num} className="space-y-2">
-                          <p className="text-[10px] font-black uppercase text-slate-400">
-                            Shift {num}
+                    <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in zoom-in-95 duration-300">
+                      {[
+                        { id: 1, label: "Morning" },
+                        { id: 2, label: "Afternoon" },
+                        { id: 3, label: "Evening" },
+                      ].map((shift) => (
+                        <div key={shift.id} className="space-y-2">
+                          {/* Label for each shift */}
+                          <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                            {shift.label}
                           </p>
-                          <div className="flex items-center border border-gray-400 rounded-sm divide-x divide-gray-400 overflow-hidden">
+
+                          {/* Time Selector Box */}
+                          <div className="flex items-center border border-gray-300 rounded-sm divide-x divide-gray-400 overflow-hidden focus-within:border-[#448cff] transition-all">
+                            {/* Start Time Dropdown */}
                             <select
-                              className="flex-1 p-2 text-xs font-bold outline-none appearance-none text-center bg-white"
+                              className="flex-1 p-2 text-xs font-bold outline-none appearance-none text-center bg-white cursor-pointer hover:bg-slate-50"
                               value={
-                                formData.availability[day][`s${num}_start`]
+                                formData.availability[day][`s${shift.id}_start`]
                               }
                               onChange={(e) =>
                                 updateAvailability(
                                   day,
-                                  `s${num}_start`,
+                                  `s${shift.id}_start`,
                                   e.target.value,
                                 )
                               }
@@ -341,13 +377,17 @@ const Apply = () => {
                                 </option>
                               ))}
                             </select>
+
+                            {/* End Time Dropdown */}
                             <select
-                              className="flex-1 p-2 text-xs font-bold outline-none appearance-none text-center bg-white"
-                              value={formData.availability[day][`s${num}_end`]}
+                              className="flex-1 p-2 text-xs font-bold outline-none appearance-none text-center bg-white cursor-pointer hover:bg-slate-50"
+                              value={
+                                formData.availability[day][`s${shift.id}_end`]
+                              }
                               onChange={(e) =>
                                 updateAvailability(
                                   day,
-                                  `s${num}_end`,
+                                  `s${shift.id}_end`,
                                   e.target.value,
                                 )
                               }
@@ -372,7 +412,7 @@ const Apply = () => {
           {/* Section 4: Eligibility */}
           <div className="space-y-8">
             <h2 className="text-xl font-black uppercase border-b-2 border-slate-100 pb-4">
-              04. Eligibility
+              Eligibility
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <CheckboxItem
@@ -397,7 +437,32 @@ const Apply = () => {
               />
             </div>
           </div>
+          <div className="space-y-6">
+            {/* Section Title */}
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-[#448cff]">
+              Service Excellence Requirement
+            </h3>
 
+            {/* Requirement Call-out Box */}
+            <div className="flex items-start gap-5 bg-blue-50/30 border border-gray-300 p-8 rounded-sm animate-in fade-in slide-in-from-right-4 duration-700">
+              <div className="mt-1">
+                <Sparkles size={24} className="text-[#448cff]" />
+              </div>
+              <div className="space-y-4">
+                <p className="text-[15px] md:text-[16px] text-slate-600 leading-loose font-medium italic">
+                  "We won’t sugar-coat it: this role involves physical work and
+                  attention to detail. If you take pride in doing a job well,
+                  you’ll fit right in!"
+                </p>
+
+                {/* The NEW line you requested */}
+                <p className="text-[15px] md:text-[16px] text-slate-800 leading-loose font-bold">
+                  Important: You will need to happily reclean areas of property
+                  free of charge if the customer is not 100% satisfied.
+                </p>
+              </div>
+            </div>
+          </div>
           <button
             type="submit"
             className="w-full bg-[#448cff] text-white py-6 rounded-sm font-black uppercase tracking-[0.3em] text-lg hover:bg-blue-700 transition-all shadow-2xl shadow-blue-100"
@@ -422,15 +487,15 @@ const InputGroup = ({ label, placeholder, value, onChange, type = "text" }) => (
       placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full p-4 border border-gray-400 rounded-sm outline-none focus:border-[#448cff] transition-all font-bold text-slate-700"
+      className="w-full p-4 border border-gray-300 rounded-sm outline-none focus:border-[#448cff] transition-all font-bold text-slate-700"
     />
   </div>
 );
 
 const CheckboxItem = ({ label, checked, onChange }) => (
-  <label className="flex items-center gap-4 p-5 border border-gray-400 rounded-sm cursor-pointer hover:bg-blue-50 transition-all group">
+  <label className="flex items-center gap-4 p-5 border border-gray-300 rounded-sm cursor-pointer hover:bg-blue-50 transition-all group">
     <div
-      className={`w-6 h-6 border flex items-center justify-center transition-all ${checked ? "bg-[#448cff] border-[#448cff]" : "border-gray-400 bg-white"}`}
+      className={`w-6 h-6 border flex items-center justify-center transition-all ${checked ? "bg-[#448cff] border-[#448cff]" : "border-gray-300 bg-white"}`}
     >
       {checked && <Check size={16} className="text-white" strokeWidth={4} />}
     </div>
