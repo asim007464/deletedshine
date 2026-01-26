@@ -26,12 +26,12 @@ const About = () => {
       <Navbar />
 
       {/* --- HERO HEADER --- */}
-      <section className="bg-[#0f1216] py-24 text-center text-white relative overflow-hidden">
+      <section className="bg-[#0f1216] py-14 text-center text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#448cff]/10 rounded-full blur-3xl"></div>
         <h1 className="text-5xl font-black uppercase tracking-widest relative z-10">
           About the Role
         </h1>
-        <p className="text-[#448cff] font-black uppercase mt-4 tracking-widest text-sm relative z-10">
+        <p className="text-[#448cff] font-black uppercase mt-4 tracking-widest text-xl relative z-10">
           Shine & Span Professional Team
         </p>
       </section>
@@ -50,7 +50,7 @@ const About = () => {
               cleaning job. You’ll be expected to clean meticulously and leave
               each property with a “Wow” feeling for our clients. If a client is
               unhappy with cleaning you will have to freely reclean the areas of
-              the property.
+              the property highlited by the customer.
             </p>
           </div>
           <div className="bg-white p-10 border border-gray-100 rounded-sm shadow-sm">
