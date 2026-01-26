@@ -34,8 +34,7 @@ const Footer = () => {
         {/* --- COLUMN 1: BRAND & SOCIALS --- */}
         <div className="space-y-8">
           <Link to="/" className="flex items-center">
-            <img src="./websitelogo.png" alt="Logo" className="h-10 w-auto" />
-            <span className="ml-3 text-xl font-black text-[#1e293b] tracking-tight">
+            <span className=" text-xl font-black text-[#1e293b] tracking-tight">
               Shine <span className="text-[#448cff]">&</span> Span
             </span>
           </Link>
