@@ -50,7 +50,7 @@ const About = () => {
               cleaning job. You’ll be expected to clean meticulously and leave
               each property with a “Wow” feeling for our clients. If a client is
               unhappy with cleaning you will have to freely reclean the areas of
-              the property highlited by the customer.
+              the property highlighted by the customer.
             </p>
           </div>
           <div className="bg-white p-10 border border-gray-100 rounded-sm shadow-sm">
@@ -111,7 +111,7 @@ const About = () => {
               <ListItem text="Maintain professionalism: arrive on time, well-groomed, and in appropriate attire." />
               <ListItem text="Work flexibly and adapt to each client’s needs." />
               <ListItem text="Ensure reliability and consistency in your work quality." />
-              <ListItem text="If a client is unhappy with cleaning, you will have to freely reclean the areas of the property." />
+              <ListItem text="If a client is unhappy with cleaning, you will have to freely reclean the areas of the property highlighted by the customer." />
             </ul>
           </div>
 
