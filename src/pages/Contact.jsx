@@ -1,5 +1,5 @@
 import React from "react";
-import FAQ from "../Components/Contactcomponents/FAQ";
+
 import Navbar from "../Components/Homecomponents/Navbar";
 
 import Footer from "../Components/Homecomponents/Footer";
@@ -139,63 +139,6 @@ const Contact = () => {
             ))}
           </div>
         </section>
-
-        {/* --- BOTTOM SECTION --- */}
-        <section className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Why Choose Card */}
-            <div className="bg-white border border-gray-100 rounded-3xl p-10 md:p-12 shadow-sm">
-              <h3 className="text-2xl font-black text-[#1e293b] mb-8">
-                Why Choose SHINE & SPAN?
-              </h3>
-              <ul className="space-y-5">
-                {[
-                  "Free, no-obligation quotes",
-                  "Same-day response to inquiries",
-                  "Flexible scheduling options",
-                  "Fully insured and bonded",
-                  "100% satisfaction guarantee",
-                ].map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex items-center text-gray-500 font-medium text-[15px]"
-                  >
-                    <span className="w-2 h-2 bg-[#448cff] rounded-full mr-4"></span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Need Immediate Service Card */}
-            <div className="bg-[#1b89ff] rounded-3xl p-10 md:p-12 text-white flex flex-col items-center justify-center text-center shadow-lg shadow-blue-200">
-              <h3 className="text-3xl font-black mb-6">
-                Need Immediate Service?
-              </h3>
-              <p className="text-blue-50 mb-10 text-lg leading-relaxed max-w-sm font-medium">
-                For urgent cleaning needs or same-day service, give us a call
-                directly.
-              </p>
-              <button className="bg-white text-[#1b89ff] px-8 py-4 rounded-xl font-bold flex items-center gap-3 hover:bg-blue-50 transition-all shadow-xl">
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2.5"
-                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                  />
-                </svg>
-                Call (555) 123-4567
-              </button>
-            </div>
-          </div>
-        </section>
-        <FAQ></FAQ>
       </div>
       <Footer></Footer>
     </div>

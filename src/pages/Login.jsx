@@ -14,15 +14,6 @@ const Login = () => {
               "url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80')",
           }}
         ></div>
-        <div className="relative z-10 text-white max-w-md">
-          <h2 className="text-4xl font-black uppercase mb-6 tracking-tight">
-            Worker Portal
-          </h2>
-          <p className="text-gray-400 text-lg font-medium">
-            Log in to your account to check application status or view available
-            cleaning assignments in your area.
-          </p>
-        </div>
       </div>
 
       {/* Form Side */}
@@ -39,7 +30,7 @@ const Login = () => {
         <form className="space-y-6">
           <div className="space-y-2">
             <label className="text-xs font-black uppercase text-slate-400">
-              Username
+              Email
             </label>
             <input
               type="text"

@@ -26,16 +26,21 @@ const About = () => {
       <Navbar />
 
       {/* --- HERO HEADER --- */}
-      <section className="bg-[#0f1216] py-14 text-center text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#448cff]/10 rounded-full blur-3xl"></div>
-        <h1 className="text-5xl font-black uppercase tracking-widest relative z-10">
-          About the Role
-        </h1>
-        <p className="text-[#448cff] font-black uppercase mt-4 tracking-widest text-xl relative z-10">
-          Shine & Span Professional Team
-        </p>
-      </section>
+      <section className="bg-white py-20 text-center font-jakarta">
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Main Title: Dark text + Brand Blue text */}
+          <h1 className="text-4xl md:text-6xl font-black text-[#1e293b] mb-2 leading-tight">
+            About the <span className="text-[#448cff]">Role</span>
+          </h1>
 
+          {/* Description: Matching the font size and color from your screenshot */}
+          <p className="text-slate-500 text-lg md:text-xl font-medium leading-relaxed max-w-3xl mx-auto opacity-90">
+            Are you a dedicated cleaning professional with a passion for
+            excellence? We are seeking energetic and reliable self-employed
+            Cleaners to join our progressive team in London.
+          </p>
+        </div>
+      </section>
       <main className="max-w-7xl mx-auto px-6 py-20 space-y-32">
         {/* --- SECTION 1: ABOUT & MISSION (SPLIT LAYOUT) --- */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
