@@ -63,9 +63,21 @@ const About = () => {
               <Heart /> Our Mission
             </h3>
             <p className="text-slate-600 font-medium leading-relaxed italic">
-              "Our mission is to deliver outstanding results and create that
-              “Wow” factor for every client, every time. We foster a culture of
-              excellence, integrity, and teamwork. We celebrate jobs done well."
+              Our mission is to deliver consistently exceptional cleaning,
+              without exception. Every job must be completed thoroughly,
+              correctly, and to standard. Quality is mandatory. Anything less is
+              unacceptable. Independent contractors are expected to clean with
+              precision, discipline, and full attention to detail. No area is
+              overlooked. No task is rushed. Each space must be left in clearly
+              better condition than it was found. We clean safely and
+              responsibly using approved eco-friendly products. Professional
+              conduct, punctuality, and reliability are required at all times.
+              Contractors are fully accountable for the quality of their work,
+              including correcting any deficiencies. Contractors who
+              consistently meet standards and demonstrate pride in their work
+              are prioritized for ongoing assignments. Work that fails to meet
+              expectations is documented and addressed. Continued substandard
+              performance will result in removal from active work.
             </p>
           </div>
         </div>
@@ -111,19 +123,27 @@ const About = () => {
               Key Responsibilities
             </h3>
             <ul className="space-y-8">
-              <ListItem text="Clean homes / offices to an exceptional standard (dusting, vacuuming, mopping, etc.)." />
+              {/* <ListItem text="Clean homes / offices to an exceptional standard (dusting, vacuuming, mopping, etc.)." />
               <ListItem text="Deliver a “wow” factor with every clean." />
               <ListItem text="Maintain professionalism: arrive on time, well-groomed, and in appropriate attire." />
               <ListItem text="Work flexibly and adapt to each client’s needs." />
               <ListItem text="Ensure reliability and consistency in your work quality." />
-              <ListItem text="If a client is unhappy with cleaning, you will have to freely reclean the areas of the property highlighted by the customer." />
+              <ListItem text="If a client is unhappy with cleaning, you will have to freely reclean the areas of the property highlighted by the customer." /> */}
+              <ListItem text="Thorough, detail-focused cleaning on every job, not just visible areas." />
+              <ListItem text="Consistent quality, regardless of job size or frequency." />
+              <ListItem text="Professional conduct in client spaces, including punctuality and respect." />
+              <ListItem text="Proper use of eco-friendly products and safe cleaning practices." />
+              <ListItem text="Reliable attendance and communication." />
+              <ListItem text="Accountability for results, including correcting missed or substandard work." />
+              <ListItem text="Pride in workmanship and a willingness to meet high expectations." />
+              <ListItem text="Contractors who consistently meet these standards are supported and prioritized. Those who do not may not be offered continued work." />
             </ul>
           </div>
 
           {/* Right: What We're Looking For (Takes 7 columns with 2x2 cards) */}
           <div className="lg:col-span-7 space-y-10">
             <h3 className="text-2xl font-black uppercase text-slate-900  border-gray-100 pb-4 tracking-tight">
-              What We’re Looking For
+              What We Expect From Our Cleaners
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <InfoCard

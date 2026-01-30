@@ -11,7 +11,8 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Apply from "./pages/Apply";
 import Login from "./pages/Login";
-
+import Referral from "./pages/Referral";
+import Signup from "./pages/Signup";
 const App = () => {
   return (
     <Router>
@@ -24,16 +25,14 @@ const App = () => {
         <Routes>
           {/* Main Page with Employer Info & Apply Button */}
           <Route path="/" element={<Home />} />
-
+          <Route path="/referral" element={<Referral />} />
+          <Route path="/signup" element={<Signup />} />
           {/* About Page: Mission & Culture */}
           <Route path="/about" element={<About />} />
-
           {/* Contact Page */}
           <Route path="/contact" element={<Contact />} />
-
           {/* Specialized Cleaner Application Form */}
           <Route path="/apply" element={<Apply />} />
-
           {/* Worker Login: Separate from Apply Now */}
           <Route path="/login" element={<Login />} />
         </Routes>
