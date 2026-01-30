@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="font-jakarta">
       <Navbar />
-      <section className="relative min-h-[90vh] flex flex-col items-center justify-center bg-[#0f1216] px-4 overflow-hidden text-center">
+      <section className="relative min-h-[90vh] md:py-0 py-10 flex flex-col items-center justify-center bg-[#0f1216] px-4 overflow-hidden text-center">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#448cff]/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
 
         <div className="relative z-10 max-w-5xl mx-auto">

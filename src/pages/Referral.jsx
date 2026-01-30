@@ -61,7 +61,7 @@ const Referral = () => {
           </div>
 
           {/* Right Side: Link Box */}
-          <div className="bg-slate-50 p-10 border border-gray-300 rounded-sm shadow-xl shadow-blue-100/20 text-center">
+          <div className="bg-slate-50 md:p-10 p-4 border border-gray-300 rounded-sm shadow-xl shadow-blue-100/20 text-center">
             <Gift className="mx-auto text-[#448cff] mb-6" size={48} />
             <h3 className="text-xl font-black uppercase text-slate-900 mb-4">
               Your Unique Link
