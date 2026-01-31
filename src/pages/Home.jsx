@@ -7,6 +7,8 @@ const Home = () => {
   return (
     <div className="font-jakarta">
       <Navbar />
+
+      {/* Hero Section */}
       <section className="relative min-h-[90vh] md:py-0 py-10 flex flex-col items-center justify-center bg-[#0f1216] px-4 overflow-hidden text-center">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#448cff]/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
 
@@ -19,7 +21,7 @@ const Home = () => {
             <span className="text-[#448cff]">Reliable Cleaners</span>
           </h1>
           <p className="text-gray-400 text-lg md:text-xl font-medium leading-relaxed mb-12 max-w-3xl mx-auto">
-            Join a progressive cleaning company expanding into all borroughs of
+            Join a progressive cleaning company expanding into all boroughs of
             London. We offer flexible daytime hours and the chance to work
             independently while feeling supported by a great team.
           </p>
@@ -39,6 +41,70 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Our Standards Section */}
+      <section className="bg-[#161a1f] py-20 px-4 border-y border-gray-800">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+              Our <span className="text-[#448cff]">Standards</span>
+            </h2>
+            <div className="w-20 h-1 bg-[#448cff] mx-auto"></div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Standard 1 */}
+            <div className="bg-[#0f1216] p-8 rounded-lg border border-gray-800 hover:border-[#448cff]/50 transition-colors">
+              <h3 className="text-[#448cff] font-black uppercase tracking-widest text-sm mb-4">
+                Excellence
+              </h3>
+              <p className="text-gray-300 leading-relaxed">
+                We strive to deliver exceptional cleaning on every job, every
+                time. We expect work to be done thoroughly, correctly, and to
+                our standards at every visit. Anything less is not acceptable.
+              </p>
+            </div>
+
+            {/* Standard 2 */}
+            <div className="bg-[#0f1216] p-8 rounded-lg border border-gray-800 hover:border-[#448cff]/50 transition-colors">
+              <h3 className="text-[#448cff] font-black uppercase tracking-widest text-sm mb-4">
+                Precision
+              </h3>
+              <p className="text-gray-300 leading-relaxed">
+                Attention to detail matters. Corners, edges, and overlooked
+                areas matter. We expect cleaners to take responsibility for the
+                quality of their work and to complete each job properly the
+                first time.
+              </p>
+            </div>
+
+            {/* Standard 3 */}
+            <div className="bg-[#0f1216] p-8 rounded-lg border border-gray-800 hover:border-[#448cff]/50 transition-colors">
+              <h3 className="text-[#448cff] font-black uppercase tracking-widest text-sm mb-4">
+                Responsibility
+              </h3>
+              <p className="text-gray-300 leading-relaxed">
+                We clean safely and responsibly using eco-friendly products that
+                protect clients, their spaces, and your health. Reliability,
+                professionalism, and teamwork are required, not optional.
+              </p>
+            </div>
+
+            {/* Standard 4 */}
+            <div className="bg-[#0f1216] p-8 rounded-lg border border-gray-800 hover:border-[#448cff]/50 transition-colors">
+              <h3 className="text-[#448cff] font-black uppercase tracking-widest text-sm mb-4">
+                Recognition
+              </h3>
+              <p className="text-gray-300 leading-relaxed">
+                Cleaners who consistently meet our standards and take pride in
+                doing the job right are supported and rewarded. Quality work is
+                noticed. Poor work is addressed.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
