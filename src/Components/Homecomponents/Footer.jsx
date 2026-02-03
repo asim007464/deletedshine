@@ -157,10 +157,10 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 pt-8 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-black uppercase tracking-widest text-slate-400">
         <p>© {currentYear} Shine & Span Cleaning Services LTD.</p>
         <div className="flex gap-8">
-          <Link to="/" className="hover:text-[#448cff]">
+          <Link to="/privacy" className="hover:text-[#448cff]">
             Privacy Policy
           </Link>
-          <Link to="/" className="hover:text-[#448cff]">
+          <Link to="/TermsAndConditions" className="hover:text-[#448cff]">
             Terms of Service
           </Link>
         </div>

@@ -11,13 +11,12 @@ import {
   Briefcase,
   Smartphone,
   ChevronRight,
-  CheckCircle2, // Added for success screen
+  CheckCircle2,
 } from "lucide-react";
 import Navbar from "../Components/Homecomponents/Navbar";
 import Footer from "../Components/Homecomponents/Footer";
 
 const Apply = () => {
-  // --- NEW: Submission State ---
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [activeSection, setActiveSection] = useState("section-1");
 
@@ -50,7 +49,7 @@ const Apply = () => {
     }
   }, [isSubmitted]);
 
-  // --- FORM STATE ---
+  // --- FORM STATE (Fixed: Added otherExperienceTypes) ---
   const [formData, setFormData] = useState({
     firstName: "",
     middleName: "",
@@ -61,7 +60,7 @@ const Apply = () => {
     postcode: "",
     experienceLevel: "",
     experienceTypes: [],
-    otherCleaningType: "",
+    otherExperienceTypes: [], // Added this array for the checkboxes
     availability: {
       Monday: {
         enabled: false,
@@ -164,6 +163,15 @@ const Apply = () => {
     updateField("experienceTypes", updated);
   };
 
+  // --- Fixed: toggleOtherType logic ---
+  const toggleOtherType = (type) => {
+    const current = formData.otherExperienceTypes;
+    const updated = current.includes(type)
+      ? current.filter((t) => t !== type)
+      : [...current, type];
+    updateField("otherExperienceTypes", updated);
+  };
+
   const updateAvailability = (day, field, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -181,10 +189,8 @@ const Apply = () => {
     }));
   };
 
-  // --- SUBMIT HANDLER ---
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Logic for backend can be added here later
     setIsSubmitted(true);
     window.scrollTo(0, 0);
   };
@@ -193,18 +199,13 @@ const Apply = () => {
     <div className="font-jakarta bg-[#fcfdfe]">
       <Navbar />
 
-      {/* --- HERO HEADER --- */}
-
-      <section className="relative py-20 bg-white border-b border-gray-100 font-jakarta">
-        <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
-          {/* 1. Badge - Adjusted for white background */}
+      <section className="relative py-20 bg-white border-b border-gray-100 font-jakarta text-center">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="mb-8">
             <span className="inline-block px-5 py-2 rounded-full border border-blue-500/20 bg-blue-50 text-[#448cff] text-[11px] font-black uppercase tracking-[0.3em]">
               {isSubmitted ? "Application Complete" : "Recruitment Portal"}
             </span>
           </div>
-
-          {/* 2. Main Heading - Changed text-white to text-[#1e293b] */}
           <h1 className="text-4xl md:text-7xl font-black text-[#1e293b] uppercase tracking-tight leading-tight">
             {isSubmitted ? (
               <>
@@ -216,10 +217,8 @@ const Apply = () => {
               </>
             )}
           </h1>
-
-          {/* 3. Description - Changed text-gray-400 to text-slate-500 */}
           {!isSubmitted && (
-            <p className="mt-8 text-slate-500 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed text-center opacity-90">
+            <p className="mt-8 text-slate-500 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed opacity-90">
               Join London's most progressive cleaning team. We value excellence,
               reliability, and hard work.
             </p>
@@ -229,9 +228,8 @@ const Apply = () => {
 
       <main className="max-w-7xl mx-auto px-6 py-20 min-h-[50vh]">
         {isSubmitted ? (
-          /* --- SUCCESS SCREEN (100% Page) --- */
           <div className="max-w-3xl mx-auto animate-in zoom-in-95 duration-700">
-            <div className="bg-white border border-gray-200 rounded-sm p-12 text-center shadow-xl shadow-blue-100/20">
+            <div className="bg-white border border-gray-400 rounded-sm p-12 text-center shadow-xl shadow-blue-100/20">
               <div className="w-24 h-24 bg-blue-50 text-[#448cff] rounded-full flex items-center justify-center mx-auto mb-8 border border-blue-100">
                 <CheckCircle2 size={48} strokeWidth={3} />
               </div>
@@ -242,9 +240,6 @@ const Apply = () => {
                 Thanks for submitting your details. We have received your
                 application and our recruitment team will review it.
               </p>
-              <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden mb-12">
-                <div className="h-full bg-green-500 w-full"></div>
-              </div>
               <button
                 onClick={() => (window.location.href = "/")}
                 className="bg-[#0f1216] text-white px-10 py-4 rounded-sm font-black uppercase tracking-widest text-sm hover:bg-[#448cff] transition-all"
@@ -254,9 +249,7 @@ const Apply = () => {
             </div>
           </div>
         ) : (
-          /* --- ORIGINAL FORM CONTENT --- */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            {/* Sidebar */}
             <div className="hidden lg:block lg:col-span-4 space-y-8 sticky top-32 h-fit">
               <div className="bg-white border border-gray-300 p-8 rounded-sm shadow-sm">
                 <h3 className="text-sm font-black uppercase tracking-widest text-slate-900 mb-6 border-b border-gray-100 pb-4">
@@ -292,9 +285,9 @@ const Apply = () => {
               </div>
             </div>
 
-            {/* Form Area */}
             <div className="lg:col-span-8">
               <form className="space-y-24 pb-32" onSubmit={handleSubmit}>
+                {/* SECTION 1 */}
                 <section id="section-1" className="space-y-10 scroll-mt-32">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-blue-50 text-[#448cff] rounded-sm flex items-center justify-center font-black text-xl border border-blue-100">
@@ -331,7 +324,7 @@ const Apply = () => {
                       </label>
                       <div className="relative">
                         <select
-                          className="w-full p-4 border border-gray-400 rounded-sm outline-none focus:border-[#448cff] bg-white font-bold text-slate-400  appearance-none cursor-pointer"
+                          className="w-full p-4 border border-gray-400 rounded-sm outline-none focus:border-[#448cff] bg-white font-bold text-slate-400 appearance-none cursor-pointer"
                           value={formData.gender}
                           onChange={(e) =>
                             updateField("gender", e.target.value)
@@ -372,6 +365,7 @@ const Apply = () => {
                   </div>
                 </section>
 
+                {/* SECTION 2 */}
                 <section id="section-2" className="space-y-10 scroll-mt-32">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-blue-50 text-[#448cff] rounded-sm flex items-center justify-center font-black text-xl border border-blue-100">
@@ -403,11 +397,11 @@ const Apply = () => {
                         ))}
                       </div>
                     </div>
-                    <div className="space-y-3">
-                      <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                    <div className="space-y-6">
+                      <label className="text-xs font-black uppercase text-slate-400 tracking-widest">
                         Cleaning Types *
                       </label>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                         {[
                           "Residential",
                           "End of Tenancy",
@@ -418,10 +412,10 @@ const Apply = () => {
                           <div
                             key={type}
                             onClick={() => toggleExpType(type)}
-                            className={`flex items-center gap-3 p-4 border border-gray-400 rounded-sm cursor-pointer transition-all ${formData.experienceTypes.includes(type) ? "border-[#448cff] bg-blue-50 shadow-sm" : "bg-white hover:bg-slate-50"}`}
+                            className={`flex items-center gap-3 p-3 border rounded-sm cursor-pointer transition-all ${formData.experienceTypes.includes(type) ? "border-[#448cff] bg-blue-50" : "border-gray-300"}`}
                           >
                             <div
-                              className={`w-5 h-5 border flex items-center justify-center transition-all ${formData.experienceTypes.includes(type) ? "bg-[#448cff] border-[#448cff]" : "border-gray-400"}`}
+                              className={`w-4 h-4 border flex items-center justify-center ${formData.experienceTypes.includes(type) ? "bg-[#448cff] border-[#448cff]" : "border-gray-400"}`}
                             >
                               {formData.experienceTypes.includes(type) && (
                                 <Check
@@ -431,16 +425,47 @@ const Apply = () => {
                                 />
                               )}
                             </div>
-                            <span className="text-[13px] font-bold text-slate-700">
+                            <span className="text-xs font-bold text-slate-600">
                               {type}
                             </span>
                           </div>
                         ))}
                       </div>
+
+                      {/* --- CORRECTED: "Other" Dropdown Box --- */}
+                      {formData.experienceTypes.includes("Other") && (
+                        <div className="mt-4 p-6 bg-slate-50 border border-gray-400 rounded-sm animate-in fade-in slide-in-from-top-2 duration-300">
+                          <label className="text-[10px] font-black uppercase text-[#448cff] tracking-widest mb-4 block">
+                            Select specialized services you can perform:
+                          </label>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            {[
+                              "Carpet cleaning",
+                              "Window cleaning",
+                              "Oven cleaning",
+                              "Upholstery cleaning",
+                              "Office cleaning",
+                              "Gutter cleaning",
+                              "Pressure washing",
+                              "Pavement cleaning",
+                            ].map((subType) => (
+                              <CheckboxItem
+                                key={subType}
+                                label={subType}
+                                checked={formData.otherExperienceTypes.includes(
+                                  subType,
+                                )}
+                                onChange={() => toggleOtherType(subType)}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </section>
 
+                {/* SECTION 3 */}
                 <section id="section-3" className="space-y-10 scroll-mt-32">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-blue-50 text-[#448cff] rounded-sm flex items-center justify-center font-black text-xl border border-blue-100">
@@ -475,13 +500,13 @@ const Apply = () => {
                                 )
                               }
                             />
-                            <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider">
+                            <span className="text-[10px] font-black uppercase text-slate-400">
                               Available
                             </span>
                           </label>
                         </div>
                         {formData.availability[day].enabled && (
-                          <div className="p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                          <div className="p-8 grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in zoom-in-95 duration-300">
                             {[
                               { id: 1, label: "Morning" },
                               { id: 2, label: "Afternoon" },
@@ -546,6 +571,7 @@ const Apply = () => {
                   </div>
                 </section>
 
+                {/* SECTION 4 */}
                 <section id="section-4" className="space-y-10 scroll-mt-32">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-blue-50 text-[#448cff] rounded-sm flex items-center justify-center font-black text-xl border border-blue-100">
@@ -579,6 +605,7 @@ const Apply = () => {
                   </div>
                 </section>
 
+                {/* SECTION 5 */}
                 <section id="section-5" className="space-y-10 scroll-mt-32">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-blue-50 text-[#448cff] rounded-sm flex items-center justify-center font-black text-xl border border-blue-100">
@@ -619,14 +646,12 @@ const Apply = () => {
           </div>
         )}
       </main>
-
       <Footer />
     </div>
   );
 };
 
-// --- MODULAR SUB-COMPONENTS ---
-
+// --- SUB-COMPONENTS ---
 const StepLink = ({ number, label, active }) => (
   <div className="flex items-center gap-4 transition-all duration-300 transform">
     <span

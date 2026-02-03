@@ -25,7 +25,7 @@ const Referral = () => {
       <section className="bg-white py-20 text-center border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4">
           <h1 className="text-4xl md:text-6xl font-black text-[#1e293b] mb-4 uppercase tracking-tight leading-tight">
-            Refer & <span className="text-[#448cff]">Earn £25</span>
+            Refer & <span className="text-[#448cff]">Earn £250</span>
           </h1>
           <p className="text-slate-500 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed opacity-90">
             Grow our professional team and get rewarded. Share your unique link
@@ -55,7 +55,7 @@ const Referral = () => {
               <Step
                 number="03"
                 title="Earn Your Bonus"
-                desc="After they complete 2 months of high-quality service, you receive £25."
+                desc="After they complete 3 months of high-quality service, you receive £250."
               />
             </div>
           </div>
@@ -89,7 +89,7 @@ const Referral = () => {
               <Info size={18} className="text-[#448cff] shrink-0 mt-0.5" />
               <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Bonus is paid only if the referred cleaner maintains 100%
-                customer satisfaction for a continuous period of 60 days.
+                customer satisfaction for a continuous period of 3 months.
               </p>
             </div>
           </div>

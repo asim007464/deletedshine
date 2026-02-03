@@ -64,24 +64,6 @@ const Login = () => {
               "url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80')",
           }}
         ></div>
-        <div className="relative z-10 text-white max-w-md">
-          <h2 className="text-4xl font-black uppercase mb-6 tracking-tight text-white">
-            Worker Portal
-          </h2>
-          <p className="text-gray-300 text-lg font-medium leading-relaxed">
-            Access your secure portal to manage your schedule and track your
-            application in real-time.
-          </p>
-          <div className="mt-12 p-6 border border-gray-400/30 rounded-sm bg-white/5 backdrop-blur-sm">
-            <p className="text-sm italic text-gray-200">
-              "The platform that revolutionized how I manage my cleaning
-              services. Efficient and reliable."
-            </p>
-            <p className="mt-4 text-xs font-black uppercase tracking-widest text-[#448cff]">
-              Sofia Davis
-            </p>
-          </div>
-        </div>
       </div>
 
       {/* --- RIGHT SECTION: Form Area --- */}
@@ -94,7 +76,7 @@ const Login = () => {
           <ArrowLeft className="mr-2" size={18} /> Back
         </button>
 
-        {/* VIEW 1: LOGIN (EMAIL & PASSWORD) */}
+        {/* VIEW 1: SIGN IN (EMAIL & PASSWORD) */}
         {view === "login" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <h1 className="text-3xl font-black uppercase tracking-tight mb-8">
@@ -131,7 +113,19 @@ const Login = () => {
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
+
+                {/* --- FORGOT PASSWORD LINK --- */}
+                <div className="flex justify-end pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setView("otpChoice")}
+                    className="text-[10px] font-black uppercase text-[#448cff] tracking-widest hover:underline"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
               </div>
+
               <button className="w-full bg-[#448cff] text-white py-4 rounded-sm font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-lg shadow-blue-100">
                 Access Portal
               </button>

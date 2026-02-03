@@ -42,46 +42,57 @@ const About = () => {
         </div>
       </section>
       <main className="max-w-7xl mx-auto px-6 py-20 space-y-32">
-        {/* --- SECTION 1: ABOUT & MISSION (SPLIT LAYOUT) --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-6">
-            <h2 className="text-3xl font-black uppercase text-slate-900 border-l-4 border-[#448cff] pl-6">
-              Professional Cleaner Opportunity
-            </h2>
-            <p className="text-lg text-slate-600 font-medium leading-relaxed">
-              As a Professional Cleaner on our team, you will provide thorough
-              cleaning services for both domestic and or commercial properties
-              across London. We set high standards – this is not an ordinary
-              cleaning job. You’ll be expected to clean meticulously and leave
-              each property with a “Wow” feeling for our clients. If a client is
-              unhappy with cleaning you will have to freely reclean the areas of
-              the property highlighted by the customer.
-            </p>
-          </div>
-          <div className="bg-white p-10 border border-gray-100 rounded-sm shadow-sm">
-            <h3 className="text-xl font-black uppercase text-[#448cff] mb-6 flex items-center gap-3">
-              <Heart /> Our Mission
-            </h3>
-            <p className="text-slate-600 font-medium leading-relaxed italic">
-              Our mission is to deliver consistently exceptional cleaning,
-              without exception. Every job must be completed thoroughly,
-              correctly, and to standard. Quality is mandatory. Anything less is
-              unacceptable. Independent contractors are expected to clean with
-              precision, discipline, and full attention to detail. No area is
-              overlooked. No task is rushed. Each space must be left in clearly
-              better condition than it was found. We clean safely and
-              responsibly using approved eco-friendly products. Professional
-              conduct, punctuality, and reliability are required at all times.
-              Contractors are fully accountable for the quality of their work,
-              including correcting any deficiencies. Contractors who
-              consistently meet standards and demonstrate pride in their work
-              are prioritized for ongoing assignments. Work that fails to meet
-              expectations is documented and addressed. Continued substandard
-              performance will result in removal from active work.
-            </p>
-          </div>
-        </div>
+        {/* --- CENTERED MISSION SECTION --- */}
+        <section className=" bg-[#fcfdfe]">
+          <div className="max-w-8xl mx-auto px-6">
+            <div className="bg-white p-10 md:p-16 border border-gray-100 rounded-sm shadow-[0_20px_50px_rgba(68,140,255,0.1)] relative overflow-hidden animate-in fade-in zoom-in-95 duration-1000">
+              {/* Decorative background element */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#448cff]/5 rounded-full blur-3xl"></div>
 
+              {/* Header */}
+              <div className="flex flex-col items-center text-center mb-10">
+                <div className="w-16 h-16 bg-blue-50 text-[#448cff] rounded-full flex items-center justify-center mb-6 border border-blue-100 shadow-sm">
+                  <Heart
+                    size={30}
+                    strokeWidth={2.5}
+                    className="fill-blue-500/10"
+                  />
+                </div>
+                <h2 className="text-2xl md:text-3xl font-black uppercase tracking-[0.2em] text-[#1e293b]">
+                  Our <span className="text-[#448cff]">Mission</span>
+                </h2>
+                <div className="w-12 h-1 bg-[#448cff] mt-4 rounded-full"></div>
+              </div>
+
+              {/* Content */}
+              <div className="relative">
+                {/* Quote Decoration */}
+                <span className="absolute -left-4 -top-4 text-6xl text-slate-100 font-serif leading-none select-none">
+                  “
+                </span>
+
+                <p className="text-slate-600 font-medium text-lg md:text-xl leading-[1.9] italic text-center px-4">
+                  Our mission is to deliver consistently exceptional cleaning,
+                  without exception. Every job must be completed thoroughly,
+                  correctly, and to standard. Quality is mandatory. Anything
+                  less is unacceptable. Independent contractors are expected to
+                  clean with precision, discipline, and full attention to
+                  detail. No area is overlooked. No task is rushed. Each space
+                  must be left in clearly better condition than it was found. We
+                  clean safely and responsibly using approved eco-friendly
+                  products. Professional conduct, punctuality, and reliability
+                  are required at all times. Contractors are fully accountable
+                  for the quality of their work, including correcting any
+                  deficiencies. Contractors who consistently meet standards and
+                  demonstrate pride in their work are prioritized for ongoing
+                  assignments. Work that fails to meet expectations is
+                  documented and addressed. Continued substandard performance
+                  will result in removal from active work.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
         {/* --- SECTION 2: BENEFITS (4-COLUMN INTERACTIVE) --- */}
         <div className="space-y-16">
           <div className="text-center">
