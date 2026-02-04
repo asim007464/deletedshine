@@ -15,7 +15,8 @@ const TermsAndConditions = () => {
       <section className="bg-white py-16 border-b border-gray-100 text-center">
         <div className="max-w-4xl mx-auto px-6">
           <h1 className="text-4xl md:text-6xl font-black text-[#1e293b] uppercase tracking-tighter mb-4">
-            Shine & Span Cleaning Services LTD
+            Shine <span className="text-[#448cff]">&</span> Span Cleaning
+            Services LTD
           </h1>
           <p className="text-[#448cff] font-black uppercase tracking-widest text-sm mb-4">
             Terms and Conditions
