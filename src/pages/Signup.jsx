@@ -36,7 +36,7 @@ const Signup = () => {
             schedule, and track your same-day payments.
           </p>
           <p className="mt-12 text-xs text-slate-400 font-bold uppercase tracking-widest">
-            © 2026 Shine & Span Cleaning Services Ltd
+            © 2025 Shine & Span Cleaning Services Ltd
           </p>
         </div>
       </div>

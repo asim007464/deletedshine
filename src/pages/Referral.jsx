@@ -28,7 +28,7 @@ const Referral = () => {
             Refer & <span className="text-[#448cff]">Earn £250</span>
           </h1>
           <p className="text-slate-500 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed opacity-90">
-            <i>Help us</i> our professional team and get rewarded. Share your
+            <i>Help</i> our professional team and get rewarded. Share your
             unique link with experienced cleaners <i>across</i> London.
           </p>
         </div>

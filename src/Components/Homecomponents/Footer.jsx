@@ -138,7 +138,8 @@ const Footer = () => {
                   Phone Number
                 </p>
                 <p className="text-slate-800 font-bold hover:text-[#448cff] cursor-pointer transition-colors">
-                  0123456789
+                  0738 464 7705{" "}
+                  <span className="text-[12px]">(from 1pm till 7pm)</span>
                 </p>
               </div>
             </div>
@@ -161,7 +162,7 @@ const Footer = () => {
 
       {/* --- BOTTOM BAR --- */}
       <div className="max-w-7xl mx-auto px-4 pt-8 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-black uppercase tracking-widest text-slate-400">
-        <p>© {currentYear} Shine & Span Cleaning Services LTD.</p>
+        <p>© 2025 Shine & Span Cleaning Services LTD.</p>
         <div className="flex gap-8">
           <Link to="/privacy" className="hover:text-[#448cff]">
             Privacy Policy

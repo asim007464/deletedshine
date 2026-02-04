@@ -73,7 +73,7 @@ const Contact = () => {
     },
     {
       title: "Business Hours",
-      value: "Mon-Fri: 7AM-8PM",
+      value: "Mon-Sun: 7AM-8PM",
       sub: "Sat-Sun: 7AM-8PM",
       icon: (
         <svg
@@ -100,10 +100,8 @@ const Contact = () => {
         {/* --- HEADER --- */}
         <section className="py-20 text-center max-w-4xl mx-auto px-4">
           <h1 className="text-4xl md:text-6xl font-black text-[#1e293b] mb-6 tracking-tight">
-            Contact{" "}
-            <span className="text-[#448cff]">
-              Shine & Span Cleaning Services Ltd
-            </span>
+            Shine <span className="text-[#448cff]"> & </span> Span Cleaning
+            Services Ltd
           </h1>
           <p className="text-gray-500 text-lg md:text-xl leading-relaxed font-medium max-w-2xl mx-auto">
             Ready to experience professional cleaning services? Get in touch
