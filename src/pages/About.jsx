@@ -37,31 +37,43 @@ const About = () => {
           <p className="text-slate-500 text-lg md:text-xl font-medium leading-relaxed max-w-3xl mx-auto opacity-90">
             Are you a dedicated cleaning professional with a passion for
             excellence? We are seeking energetic and reliable self-employed
-            Cleaners to join our progressive team in London.
+            <i>Cleaners</i> to join our progressive team <i>across</i> London.
           </p>
         </div>
       </section>
-      <main className="max-w-7xl mx-auto px-6 py-20 space-y-32">
+      <main className="max-w-7xl mx-auto px-6  space-y-32">
         {/* --- CENTERED MISSION SECTION --- */}
         <section className=" bg-[#fcfdfe]">
           <div className="max-w-8xl mx-auto px-6">
-            <div className="bg-white p-10 md:p-16 border border-gray-100 rounded-sm shadow-[0_20px_50px_rgba(68,140,255,0.1)] relative overflow-hidden animate-in fade-in zoom-in-95 duration-1000">
+            <div className="bg-white p-0 md:px-16 md:pb-12 md:pt-8 border border-gray-100 rounded-sm shadow-[0_20px_50px_rgba(68,140,255,0.1)] relative overflow-hidden animate-in fade-in zoom-in-95 duration-1000">
               {/* Decorative background element */}
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#448cff]/5 rounded-full blur-3xl"></div>
 
               {/* Header */}
-              <div className="flex flex-col items-center text-center mb-10">
-                <div className="w-16 h-16 bg-blue-50 text-[#448cff] rounded-full flex items-center justify-center mb-6 border border-blue-100 shadow-sm">
-                  <Heart
-                    size={30}
-                    strokeWidth={2.5}
-                    className="fill-blue-500/10"
-                  />
+              <div className="relative flex flex-col items-center text-center mb-16 ">
+                {/* --- 1. Background "Watermark" Text (Very subtle) --- */}
+                <span className="absolute top-0 left-1/2 -translate-x-1/2 text-[80px] md:text-[120px] font-black text-slate-50 select-none tracking-widest z-0 opacity-50">
+                  PURPOSE
+                </span>
+
+                {/* --- 2. Professional Icon Backdrop --- */}
+                <div className="relative z-10 mb-8"></div>
+
+                {/* --- 3. Refined Typography --- */}
+                <div className="relative z-10">
+                  <p className="text-[#448cff] text-xs font-black uppercase tracking-[0.4em] mb-2">
+                    Core Values
+                  </p>
+                  <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-[#1e293b] leading-none">
+                    Our <span className="text-[#448cff]">Mission</span>
+                  </h2>
+
+                  {/* --- 4. Modern Decorative Line --- */}
+                  <div className="flex items-center justify-center gap-3 mt-6">
+                    <div className="w-8 h-[2px] bg-gray-200"></div>
+                    <div className="w-3 h-3 border-2 border-[#448cff] rounded-full"></div>
+                    <div className="w-8 h-[2px] bg-gray-200"></div>
+                  </div>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-black uppercase tracking-[0.2em] text-[#1e293b]">
-                  Our <span className="text-[#448cff]">Mission</span>
-                </h2>
-                <div className="w-12 h-1 bg-[#448cff] mt-4 rounded-full"></div>
               </div>
 
               {/* Content */}
@@ -71,23 +83,29 @@ const About = () => {
                   “
                 </span>
 
-                <p className="text-slate-600 font-medium text-lg md:text-xl leading-[1.9] italic text-center px-4">
+                <p className="text-slate-600 font-medium text-lg md:text-xl leading-[1.9]  text-center px-4">
                   Our mission is to deliver consistently exceptional cleaning,
                   without exception. Every job must be completed thoroughly,
-                  correctly, and to standard. Quality is mandatory. Anything
-                  less is unacceptable. Independent contractors are expected to
-                  clean with precision, discipline, and full attention to
-                  detail. No area is overlooked. No task is rushed. Each space
-                  must be left in clearly better condition than it was found. We
-                  clean safely and responsibly using approved eco-friendly
-                  products. Professional conduct, punctuality, and reliability
-                  are required at all times. Contractors are fully accountable
-                  for the quality of their work, including correcting any
-                  deficiencies. Contractors who consistently meet standards and
-                  demonstrate pride in their work are prioritized for ongoing
-                  assignments. Work that fails to meet expectations is
-                  documented and addressed. Continued substandard performance
-                  will result in removal from active work.
+                  correctly, and to{" "}
+                  <i>
+                    our standards. Quality is essential, and anything less is
+                    unacceptable.
+                  </i>
+                  Anything less is unacceptable. Independent contractors are
+                  expected to clean with precision, discipline, and full
+                  attention to detail.{" "}
+                  <i>No area is overlooked. No task is rushed.</i> Each space
+                  must be left in <i>noticeably</i> better condition than it was
+                  found. We clean safely and responsibly using approved
+                  eco-friendly products. Professional conduct, punctuality, and
+                  reliability are required at all times. Contractors are fully
+                  accountable for the quality of their work, including
+                  correcting any deficiencies. Contractors who consistently meet
+                  <i>quality expectations</i> and demonstrate pride in their
+                  work are prioritized for ongoing assignments. Work that fails
+                  to meet expectations is documented and addressed. Continued
+                  substandard performance will result in removal from active
+                  work.
                 </p>
               </div>
             </div>

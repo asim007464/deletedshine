@@ -39,7 +39,8 @@ const Footer = () => {
             </span>
           </Link>
           <p className="text-gray-500 text-[15px] leading-relaxed max-w-sm font-medium">
-            London's premier platform for cleaning professionals. We provide
+            London's premier platform for cleaning professionals.{" "}
+            <i>offering</i>
             flexible hours, top industry pay, and a supportive community for our
             self-employed team members.
           </p>
@@ -119,7 +120,7 @@ const Footer = () => {
                   Email Us
                 </p>
                 <p className="text-slate-800 font-bold hover:text-[#448cff] cursor-pointer transition-colors">
-                  abc@shinespan.co.uk
+                  cleaning@shinespan.co.uk
                 </p>
               </div>
             </div>

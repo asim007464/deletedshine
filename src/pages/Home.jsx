@@ -71,10 +71,10 @@ const Home = () => {
                 Precision
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                Attention to detail matters. Corners, edges, and overlooked
-                areas matter. We expect cleaners to take responsibility for the
-                quality of their work and to complete each job properly the
-                first time.
+                Attention to detail matters. Corners, edges, and{" "}
+                <i>often overlooked areas areas are just as important</i> . We
+                expect cleaners to take responsibility for the quality of their
+                work and to complete each job properly the first time.
               </p>
             </div>
 
@@ -96,9 +96,12 @@ const Home = () => {
                 Recognition
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                Cleaners who consistently meet our standards and take pride in
-                doing the job right are supported and rewarded. Quality work is
-                noticed. Poor work is addressed.
+                <i>
+                  {" "}
+                  Cleaners who consistently meet our standards and take pride in
+                  doing the job right are supported and rewarded. Quality work
+                  is noticed. Poor work is addressed.
+                </i>
               </p>
             </div>
           </div>

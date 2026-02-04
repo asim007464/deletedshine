@@ -465,7 +465,6 @@ const Apply = () => {
                   </div>
                 </section>
 
-                {/* SECTION 3 */}
                 <section id="section-3" className="space-y-10 scroll-mt-32">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-blue-50 text-[#448cff] rounded-sm flex items-center justify-center font-black text-xl border border-blue-100">
@@ -505,65 +504,80 @@ const Apply = () => {
                             </span>
                           </label>
                         </div>
+
                         {formData.availability[day].enabled && (
                           <div className="p-8 grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in zoom-in-95 duration-300">
                             {[
                               { id: 1, label: "Morning" },
                               { id: 2, label: "Afternoon" },
                               { id: 3, label: "Evening" },
-                            ].map((shift) => (
-                              <div key={shift.id} className="space-y-2">
-                                <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">
-                                  {shift.label}
-                                </p>
-                                <div className="flex items-center border border-gray-400 rounded-sm divide-x divide-gray-400 overflow-hidden focus-within:border-[#448cff]">
-                                  <select
-                                    className="flex-1 p-2.5 text-xs font-bold outline-none appearance-none text-center bg-white cursor-pointer hover:bg-slate-50"
-                                    value={
-                                      formData.availability[day][
-                                        `s${shift.id}_start`
-                                      ]
-                                    }
-                                    onChange={(e) =>
-                                      updateAvailability(
-                                        day,
-                                        `s${shift.id}_start`,
-                                        e.target.value,
-                                      )
-                                    }
-                                  >
-                                    <option value="">00</option>
-                                    {timeOptions.map((t) => (
-                                      <option key={t} value={t}>
-                                        {t}
-                                      </option>
-                                    ))}
-                                  </select>
-                                  <select
-                                    className="flex-1 p-2.5 text-xs font-bold outline-none appearance-none text-center bg-white cursor-pointer hover:bg-slate-50"
-                                    value={
-                                      formData.availability[day][
-                                        `s${shift.id}_end`
-                                      ]
-                                    }
-                                    onChange={(e) =>
-                                      updateAvailability(
-                                        day,
-                                        `s${shift.id}_end`,
-                                        e.target.value,
-                                      )
-                                    }
-                                  >
-                                    <option value="">00</option>
-                                    {timeOptions.map((t) => (
-                                      <option key={t} value={t}>
-                                        {t}
-                                      </option>
-                                    ))}
-                                  </select>
+                            ].map((shift) => {
+                              // --- NEW LOGIC: Filter times based on shift ---
+                              const filteredTimes = timeOptions.filter((t) => {
+                                const hour = parseInt(t.split(":")[0]);
+                                if (shift.id === 1)
+                                  return hour >= 7 && hour <= 12; // 07:00 to 12:00
+                                if (shift.id === 2)
+                                  return hour >= 12 && hour <= 17; // 12:00 to 17:00 (5pm)
+                                if (shift.id === 3)
+                                  return hour >= 17 && hour <= 20; // 17:00 to 20:00 (8pm)
+                                return true;
+                              });
+
+                              return (
+                                <div key={shift.id} className="space-y-2">
+                                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                                    {shift.label}
+                                  </p>
+                                  <div className="flex items-center border border-gray-400 rounded-sm divide-x divide-gray-400 overflow-hidden focus-within:border-[#448cff]">
+                                    <select
+                                      className="flex-1 p-2.5 text-xs font-bold outline-none appearance-none text-center bg-white cursor-pointer hover:bg-slate-50"
+                                      value={
+                                        formData.availability[day][
+                                          `s${shift.id}_start`
+                                        ]
+                                      }
+                                      onChange={(e) =>
+                                        updateAvailability(
+                                          day,
+                                          `s${shift.id}_start`,
+                                          e.target.value,
+                                        )
+                                      }
+                                    >
+                                      <option value="">00</option>
+                                      {filteredTimes.map((t) => (
+                                        <option key={t} value={t}>
+                                          {t}
+                                        </option>
+                                      ))}
+                                    </select>
+                                    <select
+                                      className="flex-1 p-2.5 text-xs font-bold outline-none appearance-none text-center bg-white cursor-pointer hover:bg-slate-50"
+                                      value={
+                                        formData.availability[day][
+                                          `s${shift.id}_end`
+                                        ]
+                                      }
+                                      onChange={(e) =>
+                                        updateAvailability(
+                                          day,
+                                          `s${shift.id}_end`,
+                                          e.target.value,
+                                        )
+                                      }
+                                    >
+                                      <option value="">00</option>
+                                      {filteredTimes.map((t) => (
+                                        <option key={t} value={t}>
+                                          {t}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         )}
                       </div>
