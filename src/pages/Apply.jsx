@@ -470,9 +470,15 @@ const Apply = () => {
                     <div className="w-12 h-12 bg-blue-50 text-[#448cff] rounded-sm flex items-center justify-center font-black text-xl border border-blue-100">
                       03
                     </div>
-                    <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">
-                      Availability
-                    </h2>
+                    <div>
+                      <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">
+                        Availability
+                      </h2>
+                      <p className="text-slate-600">
+                        Please update your availability in case of temporary
+                        unavoidable reasons
+                      </p>
+                    </div>
                   </div>
                   <div className="space-y-4">
                     {Object.keys(formData.availability).map((day) => (

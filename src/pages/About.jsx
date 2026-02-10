@@ -124,7 +124,7 @@ const About = () => {
             <InfoCard
               icon={<Wallet size={24} />}
               title="Top Pay"
-              desc="Highly competitive pay rates. Get paid the same day you do cleaning."
+              desc="Upto 800 pound/week + tips. Get paid the same day you do cleaning."
             />
             <InfoCard
               icon={<Dumbbell size={24} />}
