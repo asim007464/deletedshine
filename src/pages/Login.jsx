@@ -206,7 +206,7 @@ const Login = () => {
           <p className="text-sm text-slate-400 font-medium">
             New here?{" "}
             <Link
-              to={redirectTo && redirectTo !== "/" ? redirectTo : "/apply"}
+              to={redirectTo && redirectTo !== "/" ? redirectTo : "/applyform"}
               className="text-[#448cff] font-black underline"
             >
               Apply Now

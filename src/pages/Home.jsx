@@ -29,7 +29,7 @@ const Home = () => {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link
-              to="/apply"
+              to="/applyform"
               className="w-full sm:w-auto bg-[#448cff] text-white px-12 py-5 rounded-sm font-black uppercase tracking-widest text-sm hover:bg-blue-600 transition-all shadow-xl shadow-blue-500/20"
             >
               Apply Now

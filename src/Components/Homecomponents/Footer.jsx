@@ -108,7 +108,7 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                to="/apply"
+                to="/applyform"
                 className="hover:text-[#448cff] transition-colors"
               >
                 Apply to Work

@@ -149,11 +149,11 @@ const Navbar = () => {
             )}
             {showAuthUI && !isAdmin && (
               <Link
-                to={user ? "/apply" : "/login?redirect=%2Fapply"}
+                to="/applyform"
                 onClick={() => setIsOpen(false)}
                 className="py-4 bg-[#448cff] text-white rounded-sm text-center font-bold"
               >
-                {user && isApproved ? "Application" : "Apply"}
+                Apply
               </Link>
             )}
           </div>

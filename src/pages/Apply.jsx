@@ -119,24 +119,15 @@ const Apply = () => {
     },
   });
 
-  // Require login; admins cannot use Apply (they're not applicants)
+  // Redirect only admins away (they're not applicants)
   useEffect(() => {
     if (authLoading) return;
-    if (!user) {
-      const returnPath = `/apply${window.location.search || ""}`;
-      navigate(`/login?redirect=${encodeURIComponent(returnPath)}`, {
-        replace: true,
-        state: { requireLogin: true, from: "apply" },
-      });
-      return;
-    }
-    if (isAdmin) {
+    if (user && isAdmin) {
       navigate("/", { replace: true });
-      return;
     }
   }, [user, authLoading, isAdmin, navigate]);
 
-  // Fetch current user's latest application (direct by user_id so new accounts never see someone else's)
+  // Fetch current user's latest application when logged in
   useEffect(() => {
     if (!user?.id) {
       queueMicrotask(() => setLoadingMyApp(false));
@@ -390,12 +381,12 @@ const Apply = () => {
     // Approved cleaner can only update availability; keep rest from existing application
     const payloadFormData = availabilityOnlyUpdate
       ? { ...myApplication.form_data, availability: sanitisedForm.availability }
-      : { ...sanitisedForm, email: user.email };
+      : { ...sanitisedForm, email: user ? user.email : sanitisedForm.email };
     const { data: inserted, error } = await supabase
       .from("applications")
       .insert({
         form_data: payloadFormData,
-        user_id: user.id,
+        user_id: user?.id ?? null,
         status: "pending",
       })
       .select("id, status, created_at")
@@ -432,7 +423,9 @@ const Apply = () => {
     setRequestUpdate(true);
   };
 
-  if (authLoading || !user || isAdmin || loadingMyApp) {
+  // Show loading only when logged in: either redirecting admin or fetching their application
+  // Guests (no user) always see the form immediately — no login required
+  if (user && (isAdmin || loadingMyApp)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <Loader2 className="animate-spin text-[#448cff]" size={40} />
