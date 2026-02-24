@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Check,
   Clock,
@@ -22,15 +22,8 @@ import { useSiteSettings } from "../contexts/SiteSettingsContext";
 import { useAuth } from "../contexts/AuthContext";
 import { rateLimit, sanitizeFormData } from "../lib/security";
 
-const APPLY_REFERRAL_STORAGE_KEY = "apply_referral_ref";
-
 const Apply = () => {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const refFromUrl = searchParams.get("ref") || "";
-  const refFromStorage =
-    typeof sessionStorage !== "undefined" ? sessionStorage.getItem(APPLY_REFERRAL_STORAGE_KEY) : null;
-  const refCode = refFromUrl || refFromStorage || "";
   const { user, loading: authLoading, isAdmin, refreshApplicationStatus } = useAuth();
   const { location, locationPostcodes, country, postcodeLabel, postcodePlaceholder, phonePlaceholder, phoneHelper, addressPlaceholder } = useSiteSettings();
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -50,7 +43,6 @@ const Apply = () => {
     email: "",
     postcode: "",
     address: "",
-    referralCode: "",
     experienceLevel: "",
     experienceTypes: [],
     otherExperienceTypes: [], // Added this array for the checkboxes
@@ -127,35 +119,11 @@ const Apply = () => {
     },
   });
 
-  // Persist ref in sessionStorage when in URL; restore from sessionStorage when redirect dropped it (e.g. after signup → login → apply)
-  useEffect(() => {
-    if (refFromUrl.trim()) {
-      try {
-        sessionStorage.setItem(APPLY_REFERRAL_STORAGE_KEY, refFromUrl.trim());
-      } catch {
-        // ignore storage errors
-      }
-      return;
-    }
-    if (refFromStorage?.trim()) {
-      setSearchParams(
-        (prev) => {
-          const next = new URLSearchParams(prev);
-          next.set("ref", refFromStorage.trim());
-          return next;
-        },
-        { replace: true }
-      );
-    }
-  }, [refFromUrl, refFromStorage, setSearchParams]);
-
   // Require login; admins cannot use Apply (they're not applicants)
   useEffect(() => {
     if (authLoading) return;
     if (!user) {
-      let returnPath = `/apply${window.location.search || ""}`;
-      if (!refFromUrl && refFromStorage?.trim())
-        returnPath = `/apply?ref=${encodeURIComponent(refFromStorage.trim())}`;
+      const returnPath = `/apply${window.location.search || ""}`;
       navigate(`/login?redirect=${encodeURIComponent(returnPath)}`, {
         replace: true,
         state: { requireLogin: true, from: "apply" },
@@ -166,7 +134,7 @@ const Apply = () => {
       navigate("/", { replace: true });
       return;
     }
-  }, [user, authLoading, isAdmin, navigate, refFromUrl, refFromStorage]);
+  }, [user, authLoading, isAdmin, navigate]);
 
   // Fetch current user's latest application (direct by user_id so new accounts never see someone else's)
   useEffect(() => {
@@ -272,14 +240,6 @@ const Apply = () => {
       const cleaned = value.toUpperCase().replace(/[^A-Z0-9 ]/g, "").slice(0, 8);
       setFormData((prev) => ({ ...prev, postcode: cleaned }));
     }
-  };
-
-  // Effective referral code: optional form input or URL ref; uppercase for DB lookup
-  const getEffectiveReferralCode = () => {
-    const fromForm = formData.referralCode && formData.referralCode.trim();
-    const fromRef = refCode && refCode.trim();
-    const raw = fromForm || fromRef || "";
-    return raw ? raw.trim().toUpperCase() : "";
   };
 
   const validateForm = () => {
@@ -424,30 +384,6 @@ const Apply = () => {
         return;
       }
     }
-    let referrerId = null;
-    // One referral per person: if this user already has any application with a referrer, keep that referrer (ignore new ref)
-    if (availabilityOnlyUpdate && myApplication?.referrer_id) {
-      referrerId = myApplication.referrer_id;
-    } else {
-      const { data: prevWithRef } = await supabase
-        .from("applications")
-        .select("referrer_id")
-        .eq("user_id", user.id)
-        .not("referrer_id", "is", null)
-        .limit(1)
-        .maybeSingle();
-      if (prevWithRef?.referrer_id) {
-        referrerId = prevWithRef.referrer_id;
-      } else {
-        const codeToUse = getEffectiveReferralCode();
-        if (codeToUse && !availabilityOnlyUpdate) {
-          const { data: referrer } = await supabase.rpc("get_referrer_by_referral_code", {
-            p_code: codeToUse,
-          }).maybeSingle();
-          if (referrer?.id) referrerId = referrer.id;
-        }
-      }
-    }
     // Sanitise all free-text fields before storing
     const sanitisedForm = sanitizeFormData(formData);
 
@@ -459,9 +395,6 @@ const Apply = () => {
       .from("applications")
       .insert({
         form_data: payloadFormData,
-        referrer_id: availabilityOnlyUpdate
-          ? (myApplication?.referrer_id ?? null)
-          : referrerId,
         user_id: user.id,
         status: "pending",
       })
@@ -472,9 +405,6 @@ const Apply = () => {
       setSubmitError(error.message || "Failed to submit. Please try again.");
       requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
       return;
-    }
-    if (inserted?.id && referrerId && !availabilityOnlyUpdate) {
-      await supabase.rpc("ensure_referral_for_application", { p_application_id: inserted.id });
     }
     setMyApplication(inserted ? { ...inserted, form_data: formData } : null);
     setIsSubmitted(true);
@@ -870,23 +800,6 @@ const Apply = () => {
                         <p className="text-xs text-slate-500 font-medium">
                           Your full residential address (street, building, city). Required for your application.
                         </p>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">
-                            Referral code (optional)
-                          </label>
-                          <input
-                            type="text"
-                            value={formData.referralCode}
-                            onChange={(e) => setFormData((prev) => ({ ...prev, referralCode: e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12) }))}
-                            placeholder="e.g. ABC12XYZ (from a friend or colleague)"
-                            className="w-full p-4 border border-gray-400 rounded-sm outline-none focus:border-[#448cff] font-medium text-slate-800 placeholder-slate-400"
-                          />
-                          <p className="text-xs text-slate-500 font-medium">
-                            If someone referred you, enter their referral code here. You can find your own code on the Refer & Earn page after signing in.
-                          </p>
-                        </div>
                       </div>
                     </section>
 

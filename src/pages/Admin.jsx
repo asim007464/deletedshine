@@ -4,7 +4,6 @@ import {
   Users,
   User,
   FileText,
-  Gift,
   Settings,
   LogOut,
   Loader2,
@@ -200,17 +199,6 @@ function generateApplicationPDF(app, referrerProfile) {
     y += 4;
   }
 
-  // Referral
-  if (app.referrer_id) {
-    addSection("Referral");
-    if (referrerProfile) {
-      addRow("Referred by:", `${referrerProfile.full_name || referrerProfile.email} (${referrerProfile.email})`);
-    } else {
-      addRow("Referrer ID:", app.referrer_id);
-    }
-    if (fd.referralCode) addRow("Code:", fd.referralCode);
-  }
-
   // Footer
   checkPage(20);
   y += 6;
@@ -341,11 +329,10 @@ function ApplicationDetail({ app, referrerProfile, variant = "current" }) {
 const Admin = () => {
   const navigate = useNavigate();
   const { user, profile, loading: authLoading, signOut, isAdmin } = useAuth();
-  const { location, locationPostcodes, logoUrl, country, postcodeLabel, countryOptions, currencySymbol, updateSetting, refresh } = useSiteSettings();
+  const { location, locationPostcodes, logoUrl, country, postcodeLabel, countryOptions, updateSetting, refresh } = useSiteSettings();
   const [tab, setTab] = useState("users");
   const [users, setUsers] = useState([]);
   const [applications, setApplications] = useState([]);
-  const [referrals, setReferrals] = useState([]);
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -369,9 +356,6 @@ const Admin = () => {
   const [userRoleFilter, setUserRoleFilter] = useState("all"); // 'all' | 'admins' | 'workers' | 'users'
   const [userDateFrom, setUserDateFrom] = useState("");
   const [userDateTo, setUserDateTo] = useState("");
-  const [refSearch, setRefSearch] = useState("");
-  const [refFilterProgress, setRefFilterProgress] = useState(""); // '' | 'working' | 'waiting'
-  const [refFilterRewardStatus, setRefFilterRewardStatus] = useState(""); // '' | 'eligible' | 'claimed' | 'pending'
 
   useEffect(() => {
     if (!authLoading && (!user || !isAdmin)) {
@@ -385,15 +369,13 @@ const Admin = () => {
     async function load() {
       setLoading(true);
       try {
-        const [profilesRes, appsRes, refsRes, locationsRes] = await Promise.all([
-          supabase.from("profiles").select("id, email, full_name, role, referral_code, created_at, is_main_admin").order("created_at", { ascending: false }),
-          supabase.from("applications").select("id, form_data, referrer_id, user_id, status, created_at").order("created_at", { ascending: false }),
-          supabase.from("referrals").select("id, referrer_id, referred_application_id, referred_user_id, days_worked, referred_application_status, reward_eligible_at, reward_claimed_at, status, created_at").order("created_at", { ascending: false }),
+        const [profilesRes, appsRes, locationsRes] = await Promise.all([
+          supabase.from("profiles").select("id, email, full_name, role, created_at, is_main_admin").order("created_at", { ascending: false }),
+          supabase.from("applications").select("id, form_data, user_id, status, created_at").order("created_at", { ascending: false }),
           supabase.from("locations").select("id, name, postcodes, created_at").order("name"),
         ]);
         setUsers(profilesRes.data || []);
         setApplications(appsRes.data || []);
-        setReferrals(refsRes.data || []);
         setLocations(locationsRes.data || []);
       } catch (e) {
         console.error(e);
@@ -435,15 +417,6 @@ const Admin = () => {
       console.error("Logo upload failed. In Supabase: 1) Storage → create bucket 'logos' (Public ON). 2) SQL Editor → run supabase/migrations/storage_logos_bucket_policies.sql", err);
     } finally {
       setSaving(false);
-    }
-  };
-
-  const handleUpdateReferral = async (referralId, field, value) => {
-    try {
-      await supabase.from("referrals").update({ [field]: value, updated_at: new Date().toISOString() }).eq("id", referralId);
-      setReferrals((prev) => prev.map((r) => (r.id === referralId ? { ...r, [field]: value } : r)));
-    } catch (e) {
-      console.error(e);
     }
   };
 
@@ -557,36 +530,6 @@ const Admin = () => {
     });
   }, [applications, appFilterName, appFilterPostcode, appFilterPhone, appFilterStatus, appFilterExperience, appFilterEligibility, appFilterDateFrom, appFilterDateTo]);
 
-  const filteredReferrals = useMemo(() => {
-    let list = referrals || [];
-    const q = (refSearch || "").trim().toLowerCase();
-    if (q) {
-      list = list.filter((r) => {
-        const referrer = getProfileById(r.referrer_id);
-        const referred = getProfileById(r.referred_user_id);
-        const app = getAppById(r.referred_application_id);
-        const refName = (referrer?.full_name || "").toLowerCase();
-        const refEmail = (referrer?.email || "").toLowerCase();
-        const referredName = (referred?.full_name || "").toLowerCase() ||
-          `${(app?.form_data?.firstName || "")} ${(app?.form_data?.surname || "")}`.trim().toLowerCase();
-        const referredEmail = (referred?.email || app?.form_data?.email || "").toLowerCase();
-        return refName.includes(q) || refEmail.includes(q) || referredName.includes(q) || referredEmail.includes(q);
-      });
-    }
-    if (refFilterProgress) {
-      list = list.filter((r) => {
-        const appStatus = r.referred_application_status || getAppById(r.referred_application_id)?.status || "";
-        if (refFilterProgress === "working") return appStatus === "approved";
-        if (refFilterProgress === "waiting") return appStatus === "pending" || appStatus === "rejected" || !appStatus;
-        return true;
-      });
-    }
-    if (refFilterRewardStatus) {
-      list = list.filter((r) => (r.status || "pending") === refFilterRewardStatus);
-    }
-    return list;
-  }, [referrals, refSearch, refFilterProgress, refFilterRewardStatus, users, applications]);
-
   const applicationsByUser = useMemo(() => {
     const map = new Map();
     for (const app of filteredApplications) {
@@ -616,7 +559,6 @@ const Admin = () => {
   const tabs = [
     { id: "users", label: "Users", icon: Users },
     { id: "applications", label: "Applications", icon: FileText },
-    { id: "referrals", label: "Referrals", icon: Gift },
     { id: "locations", label: "Locations", icon: MapPin },
     { id: "settings", label: "Site Settings", icon: Settings },
   ];
@@ -746,7 +688,6 @@ const Admin = () => {
       Email: u.email || "",
       Name: u.full_name || "",
       Role: u.is_main_admin ? "Main admin" : u.role === "admin" ? "Admin" : isWorker(u) ? "Worker" : "User",
-      "Referral Code": u.referral_code || "",
       "Joined Date": u.created_at ? new Date(u.created_at).toLocaleDateString() : "",
     }));
     downloadExcel(rows, "users");
@@ -788,37 +729,11 @@ const Admin = () => {
         "Friday": formatDay(avail.Friday),
         "Saturday": formatDay(avail.Saturday),
         "Sunday": formatDay(avail.Sunday),
-        "Referral Code": fd.referralCode || "",
         Status: app.status || "",
         "Applied Date": app.created_at ? new Date(app.created_at).toLocaleDateString() : "",
       };
     });
     downloadExcel(rows, "applications");
-  };
-
-  const handleDownloadReferralsExcel = () => {
-    const rows = filteredReferrals.map((r) => {
-      const referrer = getProfileById(r.referrer_id);
-      const referredProfile = getProfileById(r.referred_user_id);
-      const app = getAppById(r.referred_application_id);
-      const referredName = referredProfile?.full_name?.trim() ||
-        (app ? `${(app.form_data?.firstName || "")} ${(app.form_data?.surname || "")}`.trim() : "") || "";
-      const referredEmail = referredProfile?.email || app?.form_data?.email || "";
-      const appStatus = r.referred_application_status || app?.status || "";
-      const applicationLabel = appStatus === "approved" ? "Working" : appStatus === "rejected" ? "Rejected" : "Waiting";
-      return {
-        "Referrer Name": referrer?.full_name || "",
-        "Referrer Email": referrer?.email || "",
-        "Referred Name": referredName,
-        "Referred Email": referredEmail,
-        Application: applicationLabel,
-        "Days Worked": r.days_worked ?? 0,
-        "Eligible to Claim": r.reward_eligible_at ? new Date(r.reward_eligible_at).toLocaleDateString() : "",
-        "Reward Status": r.status || "",
-        "Claimed Date": r.reward_claimed_at ? new Date(r.reward_claimed_at).toLocaleDateString() : "",
-      };
-    });
-    downloadExcel(rows, "referrals");
   };
 
   const handleDownloadLocationsExcel = () => {
@@ -972,7 +887,6 @@ const Admin = () => {
                             <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-black uppercase text-slate-500">Email</th>
                             <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-black uppercase text-slate-500">Name</th>
                             <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-black uppercase text-slate-500">Role</th>
-                            <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-black uppercase text-slate-500">Referral Code</th>
                             <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-black uppercase text-slate-500">Joined</th>
                             <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-black uppercase text-slate-500">Actions</th>
                           </tr>
@@ -983,7 +897,6 @@ const Admin = () => {
                               <td className="px-4 sm:px-6 py-3 sm:py-4 font-medium text-slate-800 text-sm">{u.email}</td>
                               <td className="px-4 sm:px-6 py-3 sm:py-4 text-slate-600 text-sm">{u.full_name || "—"}</td>
                               <td className="px-4 sm:px-6 py-3 sm:py-4">{roleBadge(u)}</td>
-                              <td className="px-4 sm:px-6 py-3 sm:py-4 font-mono text-xs sm:text-sm">{u.referral_code || "—"}</td>
                               <td className="px-4 sm:px-6 py-3 sm:py-4 text-slate-500 text-sm">{new Date(u.created_at).toLocaleDateString()}</td>
                               <td className="px-4 sm:px-6 py-3 sm:py-4">
                                 {canBeMadeAdmin(u) && isMainAdmin && (
@@ -1384,142 +1297,6 @@ const Admin = () => {
                 )}
                 {applications.length > 0 && filteredApplications.length === 0 && (
                   <p className="text-slate-500 text-center py-6">No applications match your filters.</p>
-                )}
-              </div>
-            )}
-
-            {tab === "referrals" && (
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                <div className="px-4 sm:px-6 py-3 bg-slate-50 border-b border-gray-200">
-                  <p className="text-xs text-slate-600 mb-3">
-                    <strong>Application</strong> = from their application (read-only): Waiting for approval or Working. <strong>Status</strong> = reward lifecycle (you set): Pending → Eligible → Claimed. <strong>Days worked</strong> / <strong>Eligible to claim</strong> / <strong>Claimed</strong> = for the {currencySymbol}25 bonus.
-                  </p>
-                  <div className="flex flex-col sm:flex-row flex-wrap gap-3">
-                    <input
-                      type="text"
-                      placeholder="Search by referrer or referred name / email..."
-                      value={refSearch}
-                      onChange={(e) => setRefSearch(e.target.value)}
-                      className="flex-1 min-w-[200px] px-3 py-2 border border-gray-300 rounded-lg text-sm"
-                    />
-                    <select
-                      value={refFilterProgress}
-                      onChange={(e) => setRefFilterProgress(e.target.value)}
-                      className="px-3 py-2 border border-gray-300 rounded-lg text-sm min-w-[160px]"
-                    >
-                      <option value="">All (application)</option>
-                      <option value="working">Working</option>
-                      <option value="waiting">Waiting for approval</option>
-                    </select>
-                    <select
-                      value={refFilterRewardStatus}
-                      onChange={(e) => setRefFilterRewardStatus(e.target.value)}
-                      className="px-3 py-2 border border-gray-300 rounded-lg text-sm min-w-[120px]"
-                    >
-                      <option value="">All (reward status)</option>
-                      <option value="eligible">Eligible</option>
-                      <option value="claimed">Claimed</option>
-                    </select>
-                    <button
-                      onClick={handleDownloadReferralsExcel}
-                      disabled={filteredReferrals.length === 0}
-                      className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-bold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      <Download size={16} /> Download Excel
-                    </button>
-                  </div>
-                </div>
-                <div className="overflow-x-auto">
-                <table className="w-full text-left min-w-[800px]">
-                  <thead className="bg-slate-50 border-b border-gray-200">
-                    <tr>
-                      <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-black uppercase text-slate-500">Referrer (name & email)</th>
-                      <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-black uppercase text-slate-500">Referred (name & email)</th>
-                      <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-black uppercase text-slate-500">Application</th>
-                      <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-black uppercase text-slate-500">Days worked</th>
-                      <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-black uppercase text-slate-500">Eligible to claim</th>
-                      <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-black uppercase text-slate-500">Status</th>
-                      <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-black uppercase text-slate-500">Claimed</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredReferrals.map((r) => {
-                      const referrer = getProfileById(r.referrer_id);
-                      const referredProfile = getProfileById(r.referred_user_id);
-                      const app = getAppById(r.referred_application_id);
-                      const referredName = referredProfile?.full_name?.trim() ||
-                        (app ? `${(app.form_data?.firstName || "")} ${(app.form_data?.surname || "")}`.trim() : "") || "—";
-                      const referredEmail = referredProfile?.email || app?.form_data?.email || "—";
-                      const appStatus = r.referred_application_status || app?.status || "";
-                      const applicationLabel = appStatus === "approved" ? "Working" : appStatus === "rejected" ? "Rejected" : "Waiting for approval";
-                      return (
-                        <tr key={r.id} className="border-b border-gray-100 hover:bg-slate-50/50">
-                          <td className="px-4 sm:px-6 py-3 sm:py-4 text-slate-800 text-sm">
-                            <div className="font-medium">{referrer?.full_name || "—"}</div>
-                            <div className="text-slate-500 text-xs">{referrer?.email || "—"}</div>
-                          </td>
-                          <td className="px-4 sm:px-6 py-3 sm:py-4 text-slate-800 text-sm">
-                            <div className="font-medium">{referredName}</div>
-                            <div className="text-slate-500 text-xs">{referredEmail}</div>
-                          </td>
-                          <td className="px-4 sm:px-6 py-3 sm:py-4">
-                            <span className={`px-2 py-1 rounded text-xs font-bold ${
-                              appStatus === "approved" ? "bg-green-100 text-green-800" :
-                              appStatus === "rejected" ? "bg-red-100 text-red-800" :
-                              "bg-amber-100 text-amber-800"
-                            }`}>
-                              {applicationLabel}
-                            </span>
-                          </td>
-                          <td className="px-4 sm:px-6 py-3 sm:py-4">
-                            <input
-                              type="number"
-                              min="0"
-                              value={r.days_worked}
-                              onChange={(e) => handleUpdateReferral(r.id, "days_worked", parseInt(e.target.value, 10) || 0)}
-                              className="w-16 sm:w-20 p-2 border border-gray-300 rounded text-sm"
-                            />
-                          </td>
-                          <td className="px-4 sm:px-6 py-3 sm:py-4 text-slate-600">
-                            <input
-                              type="date"
-                              value={r.reward_eligible_at || ""}
-                              onChange={(e) => handleUpdateReferral(r.id, "reward_eligible_at", e.target.value || null)}
-                              className="p-2 border border-gray-300 rounded text-sm min-w-0"
-                            />
-                          </td>
-                          <td className="px-4 sm:px-6 py-3 sm:py-4">
-                            <select
-                              value={r.status === "claimed" ? "claimed" : "eligible"}
-                              onChange={(e) => handleUpdateReferral(r.id, "status", e.target.value)}
-                              className="p-2 border border-gray-300 rounded text-sm min-w-0"
-                            >
-                              <option value="eligible">Eligible</option>
-                              <option value="claimed">Claimed</option>
-                            </select>
-                          </td>
-                          <td className="px-4 sm:px-6 py-3 sm:py-4">
-                            {r.reward_claimed_at ? (
-                              <span className="text-green-600 text-sm">{new Date(r.reward_claimed_at).toLocaleDateString()}</span>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => handleUpdateReferral(r.id, "reward_claimed_at", new Date().toISOString())}
-                                className="text-[#448cff] font-bold text-sm hover:underline"
-                              >
-                                Mark claimed
-                              </button>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-                </div>
-                {referrals.length === 0 && <p className="p-8 text-center text-slate-500">No referrals yet.</p>}
-                {referrals.length > 0 && filteredReferrals.length === 0 && (
-                  <p className="p-8 text-center text-slate-500">No referrals match your search or filters.</p>
                 )}
               </div>
             )}

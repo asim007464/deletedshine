@@ -14,7 +14,6 @@ import Apply from "./pages/Apply";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import Referral from "./pages/Referral";
 import Signup from "./pages/Signup";
 import WebsiteGuard from "./pages/WebsiteGuard";
 import TermsAndConditions from "./pages/TermsAndConditions";
@@ -36,7 +35,7 @@ const App = () => {
           {/* About Page: Mission & Culture */}
           <Route path="/about" element={<About />} />
           {/* Contact Page */}
-          <Route path="/contact" element={<Contact />} />
+          {/* <Route path="/contact" element={<Contact />} /> */}
           {/* Worker Login: Separate from Apply Now */}
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -44,12 +43,17 @@ const App = () => {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
 
-          {/* Auth-protected routes */}
-          <Route path="/apply" element={<ProtectedRoute requireAuth><Apply /></ProtectedRoute>} />
-          <Route path="/referral" element={<ProtectedRoute requireAuth><Referral /></ProtectedRoute>} />
+          <Route path="/applyform" element={<Apply />} />
 
           {/* Admin-only route */}
-          <Route path="/admin" element={<ProtectedRoute requireAdmin><Admin /></ProtectedRoute>} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requireAdmin>
+                <Admin />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Catch-all — redirect unknown paths to home */}
           <Route path="*" element={<Home />} />

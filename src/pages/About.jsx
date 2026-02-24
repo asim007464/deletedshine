@@ -85,29 +85,25 @@ const About = () => {
                   “
                 </span>
 
-                <p className="text-slate-600 font-medium text-lg md:text-xl leading-[1.9]  text-center px-4">
+                <p className="text-slate-600 font-medium text-lg md:text-xl leading-[1.9] text-center px-4">
                   Our mission is to deliver consistently exceptional cleaning,
                   without exception. Every job must be completed thoroughly,
-                  correctly, and to{" "}
-                  <i>
-                    our standards. Quality is essential, and anything less is
-                    unacceptable.
-                  </i>
-                  Anything less is unacceptable. Independent contractors are
-                  expected to clean with precision, discipline, and full
-                  attention to detail.{" "}
-                  <i>No area is overlooked. No task is rushed.</i> Each space
-                  must be left in <i>noticeably</i> better condition than it was
-                  found. We clean safely and responsibly using approved
-                  eco-friendly products. Professional conduct, punctuality, and
-                  reliability are required at all times. Contractors are fully
-                  accountable for the quality of their work, including
-                  correcting any deficiencies. Contractors who consistently{" "}
-                  <i>meet quality expectations</i> and demonstrate pride in their
-                  work are prioritized for ongoing assignments. Work that fails
-                  to meet expectations is documented and addressed. Continued
-                  substandard performance will result in removal from active
-                  work.
+                  correctly, and to our standards. Quality is essential, and
+                  anything less is unacceptable. Anything less is{" "}
+                  <i>unacceptable. Independent</i> contractors are expected to
+                  clean with precision, discipline, and full attention to
+                  detail. No area is overlooked. No task is rushed. Each space
+                  must be left in noticeably better condition than it was found.
+                  We clean safely and responsibly using approved eco-friendly
+                  products. Professional conduct, punctuality, and reliability
+                  are required at all times. Contractors are fully accountable
+                  for the quality of their work, including correcting any
+                  deficiencies. Contractors who consistently meet quality
+                  expectations and demonstrate pride in their work
+                  <i> will receive priority for future assignments.</i> Work
+                  that fails to meet expectations is documented and addressed.
+                  Continued substandard performance will result in removal from
+                  active work.
                 </p>
               </div>
             </div>
@@ -126,17 +122,27 @@ const About = () => {
             <InfoCard
               icon={<Wallet size={24} />}
               title="Top Pay"
-              desc={<><i>Up to {currencySymbol}800/week</i> + tips. Get paid the same day you do cleaning.</>}
+              desc={
+                <>
+                  <i>Up to {currencySymbol}800/week</i> + tips. Get paid the
+                  same day you do cleaning.
+                </>
+              }
             />
             <InfoCard
               icon={<Dumbbell size={24} />}
               title="Gym Access"
-              desc={<>Enjoy great <i>perks, including</i> a free gym membership to stay healthy.</>}
+              desc={
+                <>
+                  Enjoy great <i>perks, including</i> a free gym membership to
+                  stay healthy.
+                </>
+              }
             />
             <InfoCard
               icon={<Clock size={24} />}
               title="Flexible Scheduling"
-              desc="Control your schedule. Tell us the hours you want to work."
+              desc="Control your schedule. Please specify the hours you would like to work."
             />
             <InfoCard
               icon={<Star size={24} />}

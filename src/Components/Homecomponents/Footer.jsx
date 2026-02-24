@@ -38,7 +38,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-white border-t border-gray-100 pt-20 pb-10 font-jakarta">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1.5fr] gap-16 mb-16">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-16 mb-16">
         {/* --- COLUMN 1: BRAND & SOCIALS --- */}
         <div className="space-y-8">
           <Link to="/" className="flex items-center">
@@ -57,8 +57,11 @@ const Footer = () => {
           <p className="text-gray-500 text-[15px] leading-relaxed max-w-sm font-medium">
             {location}
             {locationPostcodes ? ` (${locationPostcodes})` : ""}'s premier
-            platform for cleaning professionals. <b><i>Offering
-            flexible</i></b> hours, top industry pay, and a supportive community for our
+            platform for cleaning professionals.{" "}
+            <b>
+              <i>Offering flexible</i>
+            </b>{" "}
+            hours, top industry pay, and a supportive community for our
             self-employed team members.
           </p>
 
@@ -111,78 +114,23 @@ const Footer = () => {
                 Apply to Work
               </Link>
             </li>
-            <li>
-              <Link
-                to="/contact"
-                className="hover:text-[#448cff] transition-colors"
-              >
-                Contact Us
-              </Link>
-            </li>
           </ul>
         </div>
 
         {/* --- COLUMN 3: RECRUITMENT INFO --- */}
-        <div>
-          <h4 className="font-black uppercase text-xs tracking-[0.2em] text-slate-400 mb-8">
-            Recruitment
-          </h4>
-          <div className="space-y-6">
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
-                <Mail className="text-[#448cff]" size={18} />
-              </div>
-              <div>
-                <p className="text-[10px] font-black uppercase text-slate-400 mb-1 tracking-widest">
-                  Email Us
-                </p>
-                <p className="text-slate-800 font-bold hover:text-[#448cff] cursor-pointer transition-colors">
-                  cleaning@shinespan.co.uk
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
-                <Phone className="text-[#448cff]" size={18} />
-              </div>
-              <div>
-                <p className="text-[10px] font-black uppercase text-slate-400 mb-1 tracking-widest">
-                  Phone Number
-                </p>
-                <p className="text-slate-800 font-bold hover:text-[#448cff] cursor-pointer transition-colors">
-                  0738 464 7705{" "}
-                  <span className="text-[12px]">(Available from 1 PM to 7 PM)</span>
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
-                <MapPin className="text-[#448cff]" size={18} />
-              </div>
-              <div>
-                <p className="text-[10px] font-black uppercase text-slate-400 mb-1 tracking-widest">
-                  Location
-                </p>
-                <p className="text-slate-800 font-bold">
-                  22 Watford Road, Wembley, <br /> England, HA0 3EP
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* --- BOTTOM BAR --- */}
       <div className="max-w-7xl mx-auto px-4 pt-8 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-black uppercase tracking-widest text-slate-400">
         <p>© 2025 Shine & Span Cleaning Services LTD.</p>
-        <div className="flex gap-8">
+        {/* <div className="flex gap-8">
           <Link to="/privacy" className="hover:text-[#448cff]">
             Privacy Policy
           </Link>
           <Link to="/TermsAndConditions" className="hover:text-[#448cff]">
             Terms of Service
           </Link>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

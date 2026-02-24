@@ -47,7 +47,6 @@ export const MAX_LENGTHS = {
   phone: 20,
   postcode: 12,
   address: 500,
-  referralCode: 30,
   freeText: 2000,
 };
 

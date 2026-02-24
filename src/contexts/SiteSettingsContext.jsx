@@ -4,9 +4,36 @@ import { supabase } from "../lib/supabase";
 const SiteSettingsContext = createContext(null);
 
 const COUNTRY_OPTIONS = [
-  { value: "uk", label: "United Kingdom", currency: "£", postcodeLabel: "Postcode", postcodePlaceholder: "e.g. SW1A 1AA", phonePlaceholder: "07xxx xxxxxx", phoneHelper: "UK: 10–11 digits.", addressPlaceholder: "e.g. 123 High Street, Flat 4, London" },
-  { value: "us", label: "United States", currency: "$", postcodeLabel: "ZIP Code", postcodePlaceholder: "e.g. 12345 or 12345-6789", phonePlaceholder: "(555) 123-4567", phoneHelper: "US: 10 digits.", addressPlaceholder: "e.g. 123 Main St, New York, NY" },
-  { value: "canada", label: "Canada", currency: "CA$", postcodeLabel: "Postal Code", postcodePlaceholder: "e.g. K1A 0B1", phonePlaceholder: "(555) 123-4567", phoneHelper: "Canada: 10 digits.", addressPlaceholder: "e.g. 123 Main St, Toronto, ON" },
+  {
+    value: "uk",
+    label: "United Kingdom",
+    currency: "£",
+    postcodeLabel: "Postcode",
+    postcodePlaceholder: "e.g. SW1A 1AA",
+    phonePlaceholder: "07xxx xxxxxx",
+    phoneHelper: "UK: 10–11 digits.",
+    addressPlaceholder: "e.g. 123 High Street, Flat 4, London",
+  },
+  {
+    value: "us",
+    label: "United States",
+    currency: "$",
+    postcodeLabel: "ZIP Code",
+    postcodePlaceholder: "e.g. 12345 or 12345-6789",
+    phonePlaceholder: "(555) 123-4567",
+    phoneHelper: "US: 10 digits.",
+    addressPlaceholder: "e.g. 123 Main St, New York, NY",
+  },
+  {
+    value: "canada",
+    label: "Canada",
+    currency: "CA$",
+    postcodeLabel: "Postal Code",
+    postcodePlaceholder: "e.g. K1A 0B1",
+    phonePlaceholder: "(555) 123-4567",
+    phoneHelper: "Canada: 10 digits.",
+    addressPlaceholder: "e.g. 123 Main St, Toronto, ON",
+  },
 ];
 
 export function SiteSettingsProvider({ children }) {
@@ -18,7 +45,9 @@ export function SiteSettingsProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   async function fetchSettings() {
-    const { data, error } = await supabase.from("site_settings").select("key, value");
+    const { data, error } = await supabase
+      .from("site_settings")
+      .select("key, value");
     if (error) {
       console.warn("Site settings fetch failed:", error);
       setLoading(false);
@@ -39,7 +68,12 @@ export function SiteSettingsProvider({ children }) {
   }, []);
 
   async function updateSetting(key, value) {
-    const { error } = await supabase.from("site_settings").upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: "key" });
+    const { error } = await supabase
+      .from("site_settings")
+      .upsert(
+        { key, value, updated_at: new Date().toISOString() },
+        { onConflict: "key" },
+      );
     if (error) throw error;
     if (key === "location") setLocationState(value);
     if (key === "location_full") setLocationFullState(value);
@@ -51,14 +85,17 @@ export function SiteSettingsProvider({ children }) {
     }
   }
 
-  const countryInfo = COUNTRY_OPTIONS.find((o) => o.value === country) || COUNTRY_OPTIONS[0];
+  const countryInfo =
+    COUNTRY_OPTIONS.find((o) => o.value === country) || COUNTRY_OPTIONS[0];
   const countryDisplayName = countryInfo.label;
   const currencySymbol = countryInfo.currency;
   const postcodeLabel = countryInfo.postcodeLabel;
-  const postcodePlaceholder = countryInfo.postcodePlaceholder || "e.g. SW1A 1AA";
+  const postcodePlaceholder =
+    countryInfo.postcodePlaceholder || "e.g. SW1A 1AA";
   const phonePlaceholder = countryInfo.phonePlaceholder || "07xxx xxxxxx";
   const phoneHelper = countryInfo.phoneHelper || "10–11 digits.";
-  const addressPlaceholder = countryInfo.addressPlaceholder || "e.g. 123 High Street, Flat 4, London";
+  const addressPlaceholder =
+    countryInfo.addressPlaceholder || "e.g. 123 High Street, Flat 4, London";
 
   const value = {
     location,
@@ -79,11 +116,16 @@ export function SiteSettingsProvider({ children }) {
     refresh: fetchSettings,
   };
 
-  return <SiteSettingsContext.Provider value={value}>{children}</SiteSettingsContext.Provider>;
+  return (
+    <SiteSettingsContext.Provider value={value}>
+      {children}
+    </SiteSettingsContext.Provider>
+  );
 }
 
 export function useSiteSettings() {
   const ctx = useContext(SiteSettingsContext);
-  if (!ctx) throw new Error("useSiteSettings must be used within SiteSettingsProvider");
+  if (!ctx)
+    throw new Error("useSiteSettings must be used within SiteSettingsProvider");
   return ctx;
 }

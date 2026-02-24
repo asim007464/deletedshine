@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link, useSearchParams, useLocation } from "react-router-dom";
+import {
+  useNavigate,
+  Link,
+  useSearchParams,
+  useLocation,
+} from "react-router-dom";
 import { ArrowLeft, Loader2, Eye, EyeOff, Info } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useSiteSettings } from "../contexts/SiteSettingsContext";
@@ -11,21 +16,25 @@ const Login = () => {
   const [searchParams] = useSearchParams();
   const redirectRaw = searchParams.get("redirect") || "/";
   // React Router expects a path; full URLs (e.g. http://localhost:5173/apply?ref=...) break routing
-  const redirectTo = redirectRaw.startsWith("http://") || redirectRaw.startsWith("https://")
-    ? (() => {
-        try {
-          const u = new URL(redirectRaw);
-          return u.pathname + u.search;
-        } catch {
-          return "/";
-        }
-      })()
-    : redirectRaw;
-  const requireLoginState = location.state?.requireLogin ? location.state : null;
-  // Show "log in first" when coming from Apply/Referral (state) or from nav link (redirect param)
-  const fromApply = requireLoginState?.from === "apply" || redirectTo === "/apply" || redirectTo.startsWith("/apply?");
-  const fromReferral = requireLoginState?.from === "referral" || redirectTo === "/referral";
-  const showRequireLoginAlert = fromApply || fromReferral;
+  const redirectTo =
+    redirectRaw.startsWith("http://") || redirectRaw.startsWith("https://")
+      ? (() => {
+          try {
+            const u = new URL(redirectRaw);
+            return u.pathname + u.search;
+          } catch {
+            return "/";
+          }
+        })()
+      : redirectRaw;
+  const requireLoginState = location.state?.requireLogin
+    ? location.state
+    : null;
+  const fromApply =
+    requireLoginState?.from === "apply" ||
+    redirectTo === "/apply" ||
+    redirectTo.startsWith("/apply?");
+  const showRequireLoginAlert = fromApply;
   const { user, loading: authLoading, signIn } = useAuth();
   const { logoUrl } = useSiteSettings();
   const logoSrc = logoUrl || "/websitelogo.png";
@@ -58,7 +67,9 @@ const Login = () => {
     } catch (err) {
       const msg = err.message || "";
       if (msg.toLowerCase().includes("email not confirmed")) {
-        setError("Please verify your email first. Check your inbox for the confirmation link, then try again.");
+        setError(
+          "Please verify your email first. Check your inbox for the confirmation link, then try again.",
+        );
       } else {
         setError(msg || "Invalid email or password.");
       }
@@ -76,7 +87,8 @@ const Login = () => {
   }
   if (user) return null;
 
-  const loginBgImage = "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1200";
+  const loginBgImage =
+    "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1200";
 
   return (
     <div className="flex min-h-screen lg:h-screen w-full bg-white font-jakarta overflow-x-hidden">
@@ -89,7 +101,11 @@ const Login = () => {
         <div className="absolute inset-0 bg-[#0f1216]/50" />
         <div className="absolute left-10 top-10 z-10">
           <Link to="/">
-            <img src={logoSrc} className="w-[120px] h-auto object-contain" alt="Shine & Span" />
+            <img
+              src={logoSrc}
+              className="w-[120px] h-auto object-contain"
+              alt="Shine & Span"
+            />
           </Link>
         </div>
       </div>
@@ -97,7 +113,11 @@ const Login = () => {
       <div className="w-full lg:w-1/2 flex flex-col justify-center px-12 md:px-24 overflow-y-auto py-10">
         <div className="lg:hidden mb-8">
           <Link to="/">
-            <img src={logoSrc} alt="Shine & Span" className="w-[120px] h-auto object-contain" />
+            <img
+              src={logoSrc}
+              alt="Shine & Span"
+              className="w-[120px] h-auto object-contain"
+            />
           </Link>
         </div>
         <button
@@ -107,17 +127,15 @@ const Login = () => {
           <ArrowLeft className="mr-2" size={18} /> Back
         </button>
 
-        <h1 className="text-3xl font-black uppercase tracking-tight mb-8">Sign In</h1>
+        <h1 className="text-3xl font-black uppercase tracking-tight mb-8">
+          Sign In
+        </h1>
 
         {showRequireLoginAlert && (
           <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-sm flex items-start gap-3 text-blue-800">
             <Info className="shrink-0 mt-0.5" size={20} />
             <p className="text-sm font-medium">
-              {fromApply
-                ? "Please sign in or create an account first to access the Apply page."
-                : fromReferral
-                  ? "Please sign in or create an account first to access the Refer & Earn page."
-                  : "Please sign in or create an account first to access this page."}
+              Please sign in or create an account first to access the Apply page.
             </p>
           </div>
         )}
@@ -129,7 +147,9 @@ const Login = () => {
             </div>
           )}
           <div className="space-y-2">
-            <label className="text-xs font-black uppercase text-slate-400 tracking-widest">Email Address</label>
+            <label className="text-xs font-black uppercase text-slate-400 tracking-widest">
+              Email Address
+            </label>
             <input
               type="email"
               required
@@ -140,7 +160,9 @@ const Login = () => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-xs font-black uppercase text-slate-400 tracking-widest">Password</label>
+            <label className="text-xs font-black uppercase text-slate-400 tracking-widest">
+              Password
+            </label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -172,20 +194,34 @@ const Login = () => {
             disabled={loading}
             className="w-full bg-[#448cff] text-white py-4 rounded-sm font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-lg shadow-blue-100 flex items-center justify-center gap-2"
           >
-            {loading ? <Loader2 className="animate-spin" size={20} /> : "Access Portal"}
+            {loading ? (
+              <Loader2 className="animate-spin" size={20} />
+            ) : (
+              "Access Portal"
+            )}
           </button>
         </form>
 
         <div className="mt-10 text-center space-y-3">
           <p className="text-sm text-slate-400 font-medium">
             New here?{" "}
-            <Link to={redirectTo && redirectTo !== "/" ? redirectTo : "/apply"} className="text-[#448cff] font-black underline">
+            <Link
+              to={redirectTo && redirectTo !== "/" ? redirectTo : "/apply"}
+              className="text-[#448cff] font-black underline"
+            >
               Apply Now
             </Link>
           </p>
           <p className="text-sm text-slate-400 font-medium">
             No account?{" "}
-            <Link to={redirectTo && redirectTo !== "/" ? `/signup?redirect=${encodeURIComponent(redirectTo)}` : "/signup"} className="text-[#448cff] font-black underline">
+            <Link
+              to={
+                redirectTo && redirectTo !== "/"
+                  ? `/signup?redirect=${encodeURIComponent(redirectTo)}`
+                  : "/signup"
+              }
+              className="text-[#448cff] font-black underline"
+            >
               Sign Up
             </Link>
           </p>
