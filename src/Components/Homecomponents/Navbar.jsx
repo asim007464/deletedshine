@@ -11,10 +11,8 @@ const Navbar = () => {
     user,
     isAdmin,
     signOut,
-    applicationStatus,
     loading: authLoading,
   } = useAuth();
-  const isApproved = applicationStatus === "approved";
   const showAuthUI = !authLoading;
   const { logoUrl } = useSiteSettings();
   const logoSrc = logoUrl || "/websitelogo.png";
@@ -28,6 +26,7 @@ const Navbar = () => {
   const links = [
     { name: "Home", path: "/" },
     { name: "About Mission", path: "/about" },
+    { name: "Apply Now", path: "/applyform" },
     // { name: "Contact", path: "/contact" },
     ...(showAuthUI && isAdmin ? [{ name: "Admin", path: "/admin" }] : []),
   ];
@@ -59,19 +58,8 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="hidden md:flex items-center gap-4 min-w-[180px] justify-end">
-          {!showAuthUI ? (
-            <span className="text-slate-400 text-sm" aria-hidden>
-              ...
-            </span>
-          ) : !user ? (
-            <Link
-              to="/login"
-              className="text-slate-700 font-bold text-sm px-6 py-2 hover:text-[#448cff] transition-all"
-            >
-              Login
-            </Link>
-          ) : (
+        <div className="hidden md:flex items-center gap-4 min-w-[120px] justify-end">
+          {showAuthUI && user && (
             <button
               type="button"
               onClick={handleLogout}
@@ -80,27 +68,6 @@ const Navbar = () => {
               <LogOut size={16} /> Logout
             </button>
           )}
-          {/* {showAuthUI && !isAdmin && (
-            <Link
-              to={user ? "/apply" : "/login?redirect=%2Fapply"}
-              className="bg-[#448cff] text-white px-8 py-3 rounded-sm font-black uppercase text-xs tracking-widest hover:bg-blue-600 transition-all shadow-lg shadow-blue-100"
-            >
-              {user && isApproved ? "Application" : "Apply Now"}
-            </Link>
-          )} */}
-
-          {/* <Link
-            to={"/apply"}
-            className="bg-[#448cff] text-white px-8 py-3 rounded-sm font-black uppercase text-xs tracking-widest hover:bg-blue-600 transition-all shadow-lg shadow-blue-100"
-          >
-            {user && isApproved ? "Application" : "Apply Now"}
-          </Link> */}
-          <Link
-            to={"/applyform"}
-            className="bg-[#448cff] text-white px-8 py-3 rounded-sm font-black uppercase text-xs tracking-widest hover:bg-blue-600 transition-all shadow-lg shadow-blue-100"
-          >
-            Apply Now
-          </Link>
         </div>
 
         {/* Mobile Toggle */}
@@ -125,36 +92,15 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <div className="grid grid-cols-2 gap-4 pt-4">
-            {!showAuthUI ? (
-              <span className="col-span-2 text-center text-slate-400 text-sm py-2">
-                ...
-              </span>
-            ) : !user ? (
-              <Link
-                to="/login"
-                onClick={() => setIsOpen(false)}
-                className="py-4 border border-gray-400 rounded-sm text-center font-bold"
-              >
-                Login
-              </Link>
-            ) : (
+          <div className="flex flex-wrap gap-4 pt-4">
+            {showAuthUI && user && (
               <button
                 type="button"
                 onClick={handleLogout}
-                className="py-4 border border-gray-400 rounded-sm text-center font-bold flex items-center justify-center gap-2"
+                className="py-4 px-6 border border-gray-400 rounded-sm font-bold flex items-center justify-center gap-2"
               >
                 <LogOut size={18} /> Logout
               </button>
-            )}
-            {showAuthUI && !isAdmin && (
-              <Link
-                to="/applyform"
-                onClick={() => setIsOpen(false)}
-                className="py-4 bg-[#448cff] text-white rounded-sm text-center font-bold"
-              >
-                Apply
-              </Link>
             )}
           </div>
         </div>

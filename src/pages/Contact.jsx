@@ -7,7 +7,7 @@ const Contact = () => {
   const topCards = [
     {
       title: "Phone",
-      value: "0738 464 7705",
+      value: "",
       sub: "Available from 1 PM to 7 PM",
       btn: "Call Now",
       icon: (

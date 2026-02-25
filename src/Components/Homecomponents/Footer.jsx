@@ -1,12 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { LogIn, LogOut } from "lucide-react";
 import { useSiteSettings } from "../../contexts/SiteSettingsContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Footer = () => {
+  const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
   const { location, locationPostcodes, logoUrl, countryDisplayName } =
     useSiteSettings();
+  const { user, signOut } = useAuth();
+
+  const handleLogout = () => {
+    signOut();
+    navigate("/");
+  };
 
   const socialLinks = [
     {
@@ -111,9 +119,22 @@ const Footer = () => {
                 to="/applyform"
                 className="hover:text-[#448cff] transition-colors"
               >
-                Apply to Work
+                Work
               </Link>
             </li>
+            {user && (
+              <li>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="hover:text-[#448cff] transition-colors inline-flex items-center gap-2 font-bold text-slate-700"
+                  title="Sign out"
+                  aria-label="Sign out"
+                >
+                  <LogOut size={18} className="shrink-0" />
+                </button>
+              </li>
+            )}
           </ul>
         </div>
 
@@ -123,6 +144,26 @@ const Footer = () => {
       {/* --- BOTTOM BAR --- */}
       <div className="max-w-7xl mx-auto px-4 pt-8 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-black uppercase tracking-widest text-slate-400">
         <p>© 2025 Shine & Span Cleaning Services LTD.</p>
+        {!user ? (
+          <Link
+            to="/login"
+            className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-[#448cff] hover:text-white transition-all"
+            title="Sign in"
+            aria-label="Sign in"
+          >
+            <LogIn size={18} />
+          </Link>
+        ) : (
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-[#448cff] hover:text-white transition-all"
+            title="Sign out"
+            aria-label="Sign out"
+          >
+            <LogOut size={18} />
+          </button>
+        )}
         {/* <div className="flex gap-8">
           <Link to="/privacy" className="hover:text-[#448cff]">
             Privacy Policy
