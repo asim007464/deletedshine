@@ -115,19 +115,7 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link
-                to="/applyform"
-                className="hover:text-[#448cff] transition-colors"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate("/applyform", { replace: false });
-                }}
-              >
-                Work
-              </Link>
-            </li>
-            {user && (
-              <li>
+              {user ? (
                 <button
                   type="button"
                   onClick={handleLogout}
@@ -137,8 +125,15 @@ const Footer = () => {
                 >
                   <LogOut size={18} className="shrink-0" /> Logout
                 </button>
-              </li>
-            )}
+              ) : (
+                <Link
+                  to="/login"
+                  className="hover:text-[#448cff] transition-colors"
+                >
+                  Office
+                </Link>
+              )}
+            </li>
           </ul>
         </div>
 
