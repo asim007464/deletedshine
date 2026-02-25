@@ -24,8 +24,22 @@ import { rateLimit, sanitizeFormData } from "../lib/security";
 
 const Apply = () => {
   const navigate = useNavigate();
-  const { user, loading: authLoading, isAdmin, refreshApplicationStatus } = useAuth();
-  const { location, locationPostcodes, country, postcodeLabel, postcodePlaceholder, phonePlaceholder, phoneHelper, addressPlaceholder } = useSiteSettings();
+  const {
+    user,
+    loading: authLoading,
+    isAdmin,
+    refreshApplicationStatus,
+  } = useAuth();
+  const {
+    location,
+    locationPostcodes,
+    country,
+    postcodeLabel,
+    postcodePlaceholder,
+    phonePlaceholder,
+    phoneHelper,
+    addressPlaceholder,
+  } = useSiteSettings();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -171,7 +185,13 @@ const Apply = () => {
     window.scrollTo(0, 0);
 
     if (!isSubmitted) {
-      const sectionIds = ["section-1", "section-2", "section-3", "section-4", "section-5"];
+      const sectionIds = [
+        "section-1",
+        "section-2",
+        "section-3",
+        "section-4",
+        "section-5",
+      ];
       const triggerOffset = 200;
 
       const onScroll = () => {
@@ -225,10 +245,17 @@ const Apply = () => {
       const cleaned = value.replace(/[^0-9-]/g, "").slice(0, 10);
       setFormData((prev) => ({ ...prev, postcode: cleaned }));
     } else if (country === "canada") {
-      const cleaned = value.toUpperCase().replace(/[^A-Z0-9 ]/g, "").replace(/\s+/g, " ").slice(0, 7);
+      const cleaned = value
+        .toUpperCase()
+        .replace(/[^A-Z0-9 ]/g, "")
+        .replace(/\s+/g, " ")
+        .slice(0, 7);
       setFormData((prev) => ({ ...prev, postcode: cleaned }));
     } else {
-      const cleaned = value.toUpperCase().replace(/[^A-Z0-9 ]/g, "").slice(0, 8);
+      const cleaned = value
+        .toUpperCase()
+        .replace(/[^A-Z0-9 ]/g, "")
+        .slice(0, 8);
       setFormData((prev) => ({ ...prev, postcode: cleaned }));
     }
   };
@@ -243,7 +270,11 @@ const Apply = () => {
         }
       } else {
         if (phoneDigits.length !== 10) {
-          errors.push(country === "us" ? "Please enter a valid US phone number (10 digits)." : "Please enter a valid Canadian phone number (10 digits).");
+          errors.push(
+            country === "us"
+              ? "Please enter a valid US phone number (10 digits)."
+              : "Please enter a valid Canadian phone number (10 digits).",
+          );
         }
       }
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -263,12 +294,16 @@ const Apply = () => {
       } else if (country === "us") {
         const usZipRegex = /^\d{5}(-\d{4})?$/;
         if (!usZipRegex.test(formData.postcode.trim())) {
-          errors.push("Please enter a valid US ZIP code (e.g. 12345 or 12345-6789).");
+          errors.push(
+            "Please enter a valid US ZIP code (e.g. 12345 or 12345-6789).",
+          );
         }
       } else if (country === "canada") {
         const canadaPostalRegex = /^[A-Z]\d[A-Z]\d[A-Z]\d$/i;
         if (!canadaPostalRegex.test(pc.replace(/\s/g, ""))) {
-          errors.push("Please enter a valid Canadian postal code (e.g. K1A 0B1).");
+          errors.push(
+            "Please enter a valid Canadian postal code (e.g. K1A 0B1).",
+          );
         }
       }
       if (!formData.address.trim()) {
@@ -285,7 +320,9 @@ const Apply = () => {
       const hasAfternoon = a.s2_start && a.s2_end;
       const hasEvening = a.s3_start && a.s3_end;
       if (!hasMorning && !hasAfternoon && !hasEvening) {
-        errors.push(`${day}: choose at least one slot (Morning, Afternoon or Evening) and set both Start and End times.`);
+        errors.push(
+          `${day}: choose at least one slot (Morning, Afternoon or Evening) and set both Start and End times.`,
+        );
       }
       if (hasMorning && a.s1_end <= a.s1_start) {
         errors.push(`${day} Morning: End time must be after Start time.`);
@@ -320,7 +357,11 @@ const Apply = () => {
   const updateAvailability = (day, field, value) => {
     setFormData((prev) => {
       const next = { ...prev.availability[day], [field]: value };
-      if (field === "s1_start" || field === "s2_start" || field === "s3_start") {
+      if (
+        field === "s1_start" ||
+        field === "s2_start" ||
+        field === "s3_start"
+      ) {
         const endKey = field.replace("_start", "_end");
         if (next[endKey] && value && next[endKey] <= value) next[endKey] = "";
       }
@@ -349,29 +390,40 @@ const Apply = () => {
     const rl = rateLimit("apply-submit", 3, 60000);
     if (!rl.allowed) {
       const secs = Math.ceil(rl.retryAfterMs / 1000);
-      setSubmitError(`Too many attempts. Please wait ${secs} seconds before trying again.`);
-      requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+      setSubmitError(
+        `Too many attempts. Please wait ${secs} seconds before trying again.`,
+      );
+      requestAnimationFrame(() =>
+        window.scrollTo({ top: 0, behavior: "smooth" }),
+      );
       return;
     }
 
     const validationErrors = validateForm();
     if (validationErrors.length > 0) {
       setSubmitError(validationErrors.join(" "));
-      requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+      requestAnimationFrame(() =>
+        window.scrollTo({ top: 0, behavior: "smooth" }),
+      );
       return;
     }
     setSubmitLoading(true);
     if (!availabilityOnlyUpdate) {
-      const { data: taken } = await supabase.rpc("check_application_email_phone_taken", {
-        check_email: formData.email.trim(),
-        check_phone: formData.phone,
-      });
+      const { data: taken } = await supabase.rpc(
+        "check_application_email_phone_taken",
+        {
+          check_email: formData.email.trim(),
+          check_phone: formData.phone,
+        },
+      );
       if (taken) {
         setSubmitLoading(false);
         setSubmitError(
-          "This email or phone number is already used on another account's application. Please use the email and phone for the account you're logged in with."
+          "This email or phone number is already used on another account's application. Please use the email and phone for the account you're logged in with.",
         );
-        requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+        requestAnimationFrame(() =>
+          window.scrollTo({ top: 0, behavior: "smooth" }),
+        );
         return;
       }
     }
@@ -394,7 +446,9 @@ const Apply = () => {
     setSubmitLoading(false);
     if (error) {
       setSubmitError(error.message || "Failed to submit. Please try again.");
-      requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+      requestAnimationFrame(() =>
+        window.scrollTo({ top: 0, behavior: "smooth" }),
+      );
       return;
     }
     setMyApplication(inserted ? { ...inserted, form_data: formData } : null);
@@ -408,9 +462,12 @@ const Apply = () => {
     !myApplication ||
     (appStatus === "approved" && requestUpdate) ||
     (appStatus === "rejected" && requestUpdate);
-  const showPending = !!myApplication && appStatus === "pending" && !isSubmitted;
-  const showApproved = !!myApplication && appStatus === "approved" && !requestUpdate;
-  const showRejected = !!myApplication && appStatus === "rejected" && !requestUpdate;
+  const showPending =
+    !!myApplication && appStatus === "pending" && !isSubmitted;
+  const showApproved =
+    !!myApplication && appStatus === "approved" && !requestUpdate;
+  const showRejected =
+    !!myApplication && appStatus === "rejected" && !requestUpdate;
 
   const handleRequestUpdate = () => {
     const fd = myApplication?.form_data || {};
@@ -491,8 +548,10 @@ const Apply = () => {
             !showRejected &&
             !availabilityOnlyUpdate && (
               <p className="mt-8 text-slate-500 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed opacity-90">
-                Join {location}{locationPostcodes ? ` (${locationPostcodes})` : ""}'s most progressive cleaning team. We value
-                excellence, reliability, and hard work.
+                Join {location}
+                {locationPostcodes ? ` (${locationPostcodes})` : ""}'s most
+                progressive cleaning team. We value excellence, reliability, and
+                hard work.
               </p>
             )}
         </div>
@@ -766,7 +825,9 @@ const Apply = () => {
                             className="w-full p-4 border border-gray-400 rounded-sm outline-none bg-slate-50 font-bold text-slate-700 cursor-not-allowed"
                           />
                           <p className="text-xs text-slate-500 font-medium">
-                            Your application uses your account email only. {postcodeLabel} and phone number required for your region.
+                            Your application uses your account email only.{" "}
+                            {postcodeLabel} and phone number required for your
+                            region.
                           </p>
                         </div>
                         <InputGroup
@@ -785,13 +846,19 @@ const Apply = () => {
                           type="text"
                           required
                           value={formData.address}
-                          onChange={(e) => setFormData((prev) => ({ ...prev, address: e.target.value.trimStart() }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              address: e.target.value.trimStart(),
+                            }))
+                          }
                           placeholder=""
                           className="w-full p-4 border border-gray-400 rounded-sm outline-none focus:border-[#448cff] font-medium text-slate-800 placeholder-slate-400"
                           maxLength={500}
                         />
                         <p className="text-xs text-slate-500 font-medium">
-                          Your full residential address (street, building, city). Required for your application.
+                          Your full residential address (street, building,
+                          city). Required for your application.
                         </p>
                       </div>
                     </section>
@@ -923,7 +990,7 @@ const Apply = () => {
                       <p className="text-slate-600 text-sm md:text-base">
                         {availabilityOnlyUpdate
                           ? "Tick the days you can work and set your time slots. Submit when done."
-                          : "Please update your availability in case of temporary unavoidable reasons"}
+                          : "Our Domestic and Commercial Cleaning Service operates 24 hours a day. Please update your availability in case of temporary unavoidable reasons"}
                       </p>
                     </div>
                   </div>
@@ -1036,8 +1103,13 @@ const Apply = () => {
                                       {filteredTimes
                                         .filter(
                                           (t) =>
-                                            !formData.availability[day][`s${shift.id}_start`] ||
-                                            t > formData.availability[day][`s${shift.id}_start`]
+                                            !formData.availability[day][
+                                              `s${shift.id}_start`
+                                            ] ||
+                                            t >
+                                              formData.availability[day][
+                                                `s${shift.id}_start`
+                                              ],
                                         )
                                         .map((t) => (
                                           <option key={t} value={t}>
@@ -1162,7 +1234,16 @@ const StepLink = ({ number, label, active }) => (
   </div>
 );
 
-const InputGroup = ({ label, placeholder, value, onChange, type = "text", inputMode, helper, maxLength }) => (
+const InputGroup = ({
+  label,
+  placeholder,
+  value,
+  onChange,
+  type = "text",
+  inputMode,
+  helper,
+  maxLength,
+}) => (
   <div className="space-y-2 w-full">
     <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">
       {label}
