@@ -701,21 +701,21 @@ const Apply = () => {
                           label="First Name *"
                           value={formData.firstName}
                           onChange={(v) => updateField("firstName", v)}
-                          placeholder="John"
+                          placeholder=""
                           maxLength={100}
                         />
                         <InputGroup
                           label="Middle Name"
                           value={formData.middleName}
                           onChange={(v) => updateField("middleName", v)}
-                          placeholder="Optional"
+                          placeholder=""
                           maxLength={100}
                         />
                         <InputGroup
                           label="Surname *"
                           value={formData.surname}
                           onChange={(v) => updateField("surname", v)}
-                          placeholder="Doe"
+                          placeholder=""
                           maxLength={100}
                         />
                       </div>
@@ -749,7 +749,7 @@ const Apply = () => {
                           onChange={updatePhone}
                           type="tel"
                           inputMode="numeric"
-                          placeholder={phonePlaceholder}
+                          placeholder=""
                           helper={phoneHelper}
                           maxLength={20}
                         />
@@ -773,7 +773,7 @@ const Apply = () => {
                           label={`${postcodeLabel} *`}
                           value={formData.postcode}
                           onChange={updatePostcode}
-                          placeholder={postcodePlaceholder}
+                          placeholder=""
                           maxLength={12}
                         />
                       </div>
@@ -786,7 +786,7 @@ const Apply = () => {
                           required
                           value={formData.address}
                           onChange={(e) => setFormData((prev) => ({ ...prev, address: e.target.value.trimStart() }))}
-                          placeholder={addressPlaceholder}
+                          placeholder=""
                           className="w-full p-4 border border-gray-400 rounded-sm outline-none focus:border-[#448cff] font-medium text-slate-800 placeholder-slate-400"
                           maxLength={500}
                         />
