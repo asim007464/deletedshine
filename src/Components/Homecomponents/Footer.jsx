@@ -118,6 +118,10 @@ const Footer = () => {
               <Link
                 to="/applyform"
                 className="hover:text-[#448cff] transition-colors"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/applyform", { replace: false });
+                }}
               >
                 Work
               </Link>
@@ -131,7 +135,7 @@ const Footer = () => {
                   title="Sign out"
                   aria-label="Sign out"
                 >
-                  <LogOut size={18} className="shrink-0" />
+                  <LogOut size={18} className="shrink-0" /> Logout
                 </button>
               </li>
             )}
@@ -157,11 +161,11 @@ const Footer = () => {
           <button
             type="button"
             onClick={handleLogout}
-            className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-[#448cff] hover:text-white transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 text-slate-500 hover:bg-[#448cff] hover:text-white transition-all font-bold text-sm"
             title="Sign out"
             aria-label="Sign out"
           >
-            <LogOut size={18} />
+            <LogOut size={18} /> Logout
           </button>
         )}
         {/* <div className="flex gap-8">
