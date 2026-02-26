@@ -89,17 +89,16 @@ const About = () => {
                   Our mission is to deliver consistently exceptional cleaning,
                   without exception. Every job must be completed thoroughly,
                   correctly, and to our standards. Quality is essential, and
-                  anything less is unacceptable. Anything less is{" "}
-                  <i>unacceptable. Independent</i> contractors are expected to
-                  clean with precision, discipline, and full attention to
-                  detail. No area is overlooked. No task is rushed. Each space
-                  must be left in noticeably better condition than it was found.
-                  We clean safely and responsibly using approved eco-friendly
-                  products. Professional conduct, punctuality, and reliability
-                  are required at all times. Contractors are fully accountable
-                  for the quality of their work, including correcting any
-                  deficiencies. Contractors who consistently meet quality
-                  expectations and demonstrate pride in their work
+                  anything less is unacceptable. Independen contractors are
+                  expected to clean with precision, discipline, and full
+                  attention to detail. No area is overlooked. No task is rushed.
+                  Each space must be left in noticeably better condition than it
+                  was found. We clean safely and responsibly using approved
+                  eco-friendly products. Professional conduct, punctuality, and
+                  reliability are required at all times. Contractors are fully
+                  accountable for the quality of their work, including
+                  correcting any deficiencies. Contractors who consistently meet
+                  quality expectations and demonstrate pride in their work
                   <i> will receive priority for future assignments.</i> Work
                   that fails to meet expectations is documented and addressed.
                   Continued substandard performance will result in removal from
