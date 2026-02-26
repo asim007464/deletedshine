@@ -1,10 +1,12 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSiteSettings } from "../../contexts/SiteSettingsContext";
 import { useAuth } from "../../contexts/AuthContext";
 
 const Footer = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isHomePage = pathname === "/";
   const currentYear = new Date().getFullYear();
   const { location, locationPostcodes, logoUrl, countryDisplayName } =
     useSiteSettings();
@@ -64,26 +66,28 @@ const Footer = () => {
                 Our Mission
               </Link>
             </li>
-            <li>
-              {user ? (
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="hover:text-[#448cff] transition-colors font-bold text-slate-700"
-                  title="Sign out"
-                  aria-label="Sign out"
-                >
-                  Logout
-                </button>
-              ) : (
-                <Link
-                  to="/login"
-                  className="hover:text-[#448cff] transition-colors"
-                >
-                  Office
-                </Link>
-              )}
-            </li>
+            {isHomePage && (
+              <li>
+                {user ? (
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="hover:text-[#448cff] transition-colors font-bold text-slate-700"
+                    title="Sign out"
+                    aria-label="Sign out"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="hover:text-[#448cff] transition-colors"
+                  >
+                    Office
+                  </Link>
+                )}
+              </li>
+            )}
           </ul>
         </div>
 

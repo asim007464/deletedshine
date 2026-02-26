@@ -201,31 +201,6 @@ const Login = () => {
             )}
           </button>
         </form>
-
-        <div className="mt-10 text-center space-y-3">
-          <p className="text-sm text-slate-400 font-medium">
-            New here?{" "}
-            <Link
-              to={redirectTo && redirectTo !== "/" ? redirectTo : "/applyform"}
-              className="text-[#448cff] font-black underline"
-            >
-              Apply Now
-            </Link>
-          </p>
-          <p className="text-sm text-slate-400 font-medium">
-            No account?{" "}
-            <Link
-              to={
-                redirectTo && redirectTo !== "/"
-                  ? `/signup?redirect=${encodeURIComponent(redirectTo)}`
-                  : "/signup"
-              }
-              className="text-[#448cff] font-black underline"
-            >
-              Sign Up
-            </Link>
-          </p>
-        </div>
       </div>
     </div>
   );
