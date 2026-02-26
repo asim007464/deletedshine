@@ -802,7 +802,7 @@ const Apply = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-1">
                           <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">
-                            Email Address * (your login email)
+                            Email Address *
                           </label>
                           <input
                             type="email"
@@ -1021,9 +1021,12 @@ const Apply = () => {
                             ].map((shift) => {
                               const filteredTimes = timeOptions.filter((t) => {
                                 const hour = parseInt(t.split(":")[0], 10);
-                                if (shift.id === 1) return hour >= 0 && hour <= 12; // Morning: 00–12
-                                if (shift.id === 2) return hour >= 12 && hour <= 17; // Afternoon: 12–17
-                                if (shift.id === 3) return hour >= 17 && hour <= 24; // Evening: 17–24
+                                if (shift.id === 1)
+                                  return hour >= 0 && hour <= 12; // Morning: 00–12
+                                if (shift.id === 2)
+                                  return hour >= 12 && hour <= 17; // Afternoon: 12–17
+                                if (shift.id === 3)
+                                  return hour >= 17 && hour <= 24; // Evening: 17–24
                                 return true;
                               });
 
