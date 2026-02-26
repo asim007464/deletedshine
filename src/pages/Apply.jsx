@@ -211,22 +211,10 @@ const Apply = () => {
     }
   }, [isSubmitted]);
 
-  const timeOptions = [
-    "07:00",
-    "08:00",
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "14:00",
-    "15:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-    "20:00",
-  ];
+  // Full 24 hours: 00:00–24:00 (Morning 0–12, Afternoon 12–17, Evening 17–24)
+  const timeOptions = Array.from({ length: 25 }, (_, i) =>
+    i === 24 ? "24:00" : `${String(i).padStart(2, "0")}:00`,
+  );
 
   const updateField = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -1032,13 +1020,10 @@ const Apply = () => {
                               { id: 3, label: "Evening" },
                             ].map((shift) => {
                               const filteredTimes = timeOptions.filter((t) => {
-                                const hour = parseInt(t.split(":")[0]);
-                                if (shift.id === 1)
-                                  return hour >= 7 && hour <= 12;
-                                if (shift.id === 2)
-                                  return hour >= 12 && hour <= 17;
-                                if (shift.id === 3)
-                                  return hour >= 17 && hour <= 20;
+                                const hour = parseInt(t.split(":")[0], 10);
+                                if (shift.id === 1) return hour >= 0 && hour <= 12; // Morning: 00–12
+                                if (shift.id === 2) return hour >= 12 && hour <= 17; // Afternoon: 12–17
+                                if (shift.id === 3) return hour >= 17 && hour <= 24; // Evening: 17–24
                                 return true;
                               });
 
