@@ -25,7 +25,7 @@ const Home = () => {
           <p className="text-gray-400 text-lg md:text-xl font-medium leading-relaxed mb-12 max-w-3xl mx-auto">
             Join a progressive cleaning company expanding across {location}. We
             offer flexible hours and the chance to work independently while
-            feeling supported by a fantastic team.
+            feeling supported by a fantastic team .
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link
