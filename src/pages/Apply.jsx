@@ -790,7 +790,7 @@ const Apply = () => {
                           </div>
                         </div>
                         <InputGroup
-                          label={`Phone Number * (${country === "uk" ? "UK" : country === "us" ? "US" : "Canada"})`}
+                          label={`Phone Number *`}
                           value={formData.phone}
                           onChange={updatePhone}
                           type="tel"
