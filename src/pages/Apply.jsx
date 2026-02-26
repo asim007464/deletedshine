@@ -808,7 +808,7 @@ const Apply = () => {
                             type="email"
                             readOnly
                             value={user?.email ?? ""}
-                            className="w-full p-4 border border-gray-400 rounded-sm outline-none bg-slate-50 font-bold text-slate-700 cursor-not-allowed"
+                            className="w-full p-4 border border-gray-400 rounded-sm outline-none bg-white font-bold text-slate-700 cursor-not-allowed"
                           />
                         </div>
                         <InputGroup
@@ -834,7 +834,7 @@ const Apply = () => {
                             }))
                           }
                           placeholder=""
-                          className="w-full p-4 border border-gray-400 rounded-sm outline-none focus:border-[#448cff] font-medium text-slate-800 placeholder-slate-400"
+                          className="w-full p-4 border border-gray-400 rounded-sm outline-none focus:border-[#448cff] font-medium text-slate-800 placeholder-slate-400 bg-white"
                           maxLength={500}
                         />
                       </div>

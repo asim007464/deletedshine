@@ -89,7 +89,7 @@ const About = () => {
                   Our mission is to deliver consistently exceptional cleaning,
                   without exception. Every job must be completed thoroughly,
                   correctly, and to our standards. Quality is essential, and
-                  anything less is unacceptable. Independen contractors are
+                  anything less is unacceptable. Independent contractors are
                   expected to clean with precision, discipline, and full
                   attention to detail. No area is overlooked. No task is rushed.
                   Each space must be left in noticeably better condition than it
