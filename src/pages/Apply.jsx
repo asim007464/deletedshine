@@ -46,7 +46,6 @@ const Apply = () => {
   const [myApplication, setMyApplication] = useState(null);
   const [loadingMyApp, setLoadingMyApp] = useState(true);
   const [requestUpdate, setRequestUpdate] = useState(false);
-  // --- FORM STATE (Fixed: Added otherExperienceTypes) ---
   const [formData, setFormData] = useState({
     firstName: "",
     middleName: "",
@@ -58,7 +57,7 @@ const Apply = () => {
     address: "",
     experienceLevel: "",
     experienceTypes: [],
-    otherExperienceTypes: [], // Added this array for the checkboxes
+    otherExperienceTypes: [],
     availability: {
       Monday: {
         enabled: false,
@@ -132,7 +131,6 @@ const Apply = () => {
     },
   });
 
-  // Redirect only admins away (they're not applicants)
   useEffect(() => {
     if (authLoading) return;
     if (user && isAdmin) {
@@ -140,7 +138,6 @@ const Apply = () => {
     }
   }, [user, authLoading, isAdmin, navigate]);
 
-  // Fetch current user's latest application when logged in
   useEffect(() => {
     if (!user?.id) {
       queueMicrotask(() => setLoadingMyApp(false));
@@ -173,7 +170,6 @@ const Apply = () => {
     };
   }, [user?.id, refreshApplicationStatus]);
 
-  // Keep form email in sync with login email (application must use own account email)
   useEffect(() => {
     if (!user?.email) return;
     if (myApplication?.status === "approved" && requestUpdate) return;
@@ -211,7 +207,6 @@ const Apply = () => {
     }
   }, [isSubmitted]);
 
-  // Full 24 hours: 00:00–24:00 (Morning 0–12, Afternoon 12–17, Evening 17–24)
   const timeOptions = Array.from({ length: 25 }, (_, i) =>
     i === 24 ? "24:00" : `${String(i).padStart(2, "0")}:00`,
   );
@@ -332,7 +327,6 @@ const Apply = () => {
     updateField("experienceTypes", updated);
   };
 
-  // --- Fixed: toggleOtherType logic ---
   const toggleOtherType = (type) => {
     const current = formData.otherExperienceTypes;
     const updated = current.includes(type)
@@ -373,7 +367,6 @@ const Apply = () => {
     e.preventDefault();
     setSubmitError("");
 
-    // Rate limit: max 3 submissions per minute
     const rl = rateLimit("apply-submit", 3, 60000);
     if (!rl.allowed) {
       const secs = Math.ceil(rl.retryAfterMs / 1000);
@@ -414,10 +407,8 @@ const Apply = () => {
         return;
       }
     }
-    // Sanitise all free-text fields before storing
     const sanitisedForm = sanitizeFormData(formData);
 
-    // Approved cleaner can only update availability; keep rest from existing application
     const payloadFormData = availabilityOnlyUpdate
       ? { ...myApplication.form_data, availability: sanitisedForm.availability }
       : { ...sanitisedForm, email: user ? user.email : sanitisedForm.email };
@@ -467,8 +458,6 @@ const Apply = () => {
     setRequestUpdate(true);
   };
 
-  // Show loading only when logged in: either redirecting admin or fetching their application
-  // Guests (no user) always see the form immediately — no login required
   if (user && (isAdmin || loadingMyApp)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
@@ -732,7 +721,6 @@ const Apply = () => {
               >
                 {availabilityOnlyUpdate ? null : (
                   <>
-                    {/* SECTION 1 */}
                     <section id="section-1" className="space-y-10 scroll-mt-32">
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-blue-50 text-[#448cff] rounded-sm flex items-center justify-center font-black text-xl border border-blue-100">
@@ -840,7 +828,6 @@ const Apply = () => {
                       </div>
                     </section>
 
-                    {/* SECTION 2 */}
                     <section id="section-2" className="space-y-10 scroll-mt-32">
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-blue-50 text-[#448cff] rounded-sm flex items-center justify-center font-black text-xl border border-blue-100">
@@ -909,7 +896,6 @@ const Apply = () => {
                             ))}
                           </div>
 
-                          {/* --- CORRECTED: "Other" Dropdown Box --- */}
                           {formData.experienceTypes.includes("Other") && (
                             <div className="mt-4 p-6 bg-slate-50 border border-gray-400 rounded-sm animate-in fade-in slide-in-from-top-2 duration-300">
                               <label className="text-[10px] font-black uppercase text-[#448cff] tracking-widest mb-4 block">
@@ -1023,11 +1009,11 @@ const Apply = () => {
                               const filteredTimes = timeOptions.filter((t) => {
                                 const hour = parseInt(t.split(":")[0], 10);
                                 if (shift.id === 1)
-                                  return hour >= 0 && hour <= 12; // Morning: 00–12
+                                  return hour >= 0 && hour <= 12;
                                 if (shift.id === 2)
-                                  return hour >= 12 && hour <= 17; // Afternoon: 12–17
+                                  return hour >= 12 && hour <= 17;
                                 if (shift.id === 3)
-                                  return hour >= 17 && hour <= 24; // Evening: 17–24
+                                  return hour >= 17 && hour <= 24;
                                 return true;
                               });
 
@@ -1108,7 +1094,6 @@ const Apply = () => {
 
                 {!availabilityOnlyUpdate && (
                   <>
-                    {/* SECTION 4 */}
                     <section id="section-4" className="space-y-10 scroll-mt-32">
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-blue-50 text-[#448cff] rounded-sm flex items-center justify-center font-black text-xl border border-blue-100">
@@ -1142,7 +1127,6 @@ const Apply = () => {
                       </div>
                     </section>
 
-                    {/* SECTION 5 */}
                     <section id="section-5" className="space-y-10 scroll-mt-32">
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-blue-50 text-[#448cff] rounded-sm flex items-center justify-center font-black text-xl border border-blue-100">
@@ -1196,7 +1180,6 @@ const Apply = () => {
   );
 };
 
-// --- SUB-COMPONENTS ---
 const StepLink = ({ number, label, active }) => (
   <div className="flex items-center gap-4 transition-all duration-300 transform">
     <span
