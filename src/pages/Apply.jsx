@@ -171,12 +171,6 @@ const Apply = () => {
   }, [user?.id, refreshApplicationStatus]);
 
   useEffect(() => {
-    if (!user?.email) return;
-    if (myApplication?.status === "approved" && requestUpdate) return;
-    setFormData((prev) => ({ ...prev, email: user.email }));
-  }, [user?.email, myApplication?.status, requestUpdate]);
-
-  useEffect(() => {
     window.scrollTo(0, 0);
 
     if (!isSubmitted) {
@@ -399,7 +393,7 @@ const Apply = () => {
       if (taken) {
         setSubmitLoading(false);
         setSubmitError(
-          "This email or phone number is already used on another account's application. Please use the email and phone for the account you're logged in with.",
+          "This email or phone number is already used on another application. Please use a different email or phone.",
         );
         requestAnimationFrame(() =>
           window.scrollTo({ top: 0, behavior: "smooth" }),
@@ -411,16 +405,12 @@ const Apply = () => {
 
     const payloadFormData = availabilityOnlyUpdate
       ? { ...myApplication.form_data, availability: sanitisedForm.availability }
-      : { ...sanitisedForm, email: user ? user.email : sanitisedForm.email };
-    const { data: inserted, error } = await supabase
-      .from("applications")
-      .insert({
-        form_data: payloadFormData,
-        user_id: user?.id ?? null,
-        status: "pending",
-      })
-      .select("id, status, created_at")
-      .single();
+      : sanitisedForm;
+    const { data: rpcData, error } = await supabase.rpc("submit_application", {
+      p_form_data: payloadFormData,
+      p_user_id: user?.id ?? null,
+      p_status: "pending",
+    });
     setSubmitLoading(false);
     if (error) {
       setSubmitError(error.message || "Failed to submit. Please try again.");
@@ -429,6 +419,7 @@ const Apply = () => {
       );
       return;
     }
+    const inserted = Array.isArray(rpcData) && rpcData.length > 0 ? rpcData[0] : rpcData;
     setMyApplication(inserted ? { ...inserted, form_data: formData } : null);
     setIsSubmitted(true);
     if (requestUpdate) setRequestUpdate(false);
@@ -788,15 +779,18 @@ const Apply = () => {
                         />
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-1">
+                        <div className="space-y-2 w-full">
                           <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">
                             Email Address *
                           </label>
                           <input
                             type="email"
-                            readOnly
-                            value={user?.email ?? ""}
-                            className="w-full p-4 border border-gray-400 rounded-sm outline-none bg-white font-bold text-slate-700 cursor-not-allowed"
+                            value={formData.email ?? ""}
+                            onChange={(e) => updateField("email", e.target.value)}
+                            placeholder=""
+                            maxLength={255}
+                            autoComplete="email"
+                            className="w-full p-4 border border-gray-400 rounded-sm outline-none focus:border-[#448cff] transition-all font-bold text-slate-700 bg-white"
                           />
                         </div>
                         <InputGroup

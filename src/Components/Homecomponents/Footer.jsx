@@ -8,8 +8,7 @@ const Footer = () => {
   const { pathname } = useLocation();
   const isHomePage = pathname === "/";
   const currentYear = new Date().getFullYear();
-  const { location, locationPostcodes, logoUrl, countryDisplayName } =
-    useSiteSettings();
+  const { location, locationPostcodes, logoUrl } = useSiteSettings();
   const { user, signOut } = useAuth();
 
   const handleLogout = () => {
@@ -96,7 +95,7 @@ const Footer = () => {
 
       {/* --- BOTTOM BAR --- */}
       <div className="max-w-7xl mx-auto px-4 pt-8 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-black uppercase tracking-widest text-slate-400">
-        <p>© 2025 Shine & Span Cleaning Services LTD.</p>
+        <p>© {currentYear} Shine & Span Cleaning Services LTD.</p>
 
         {/* <div className="flex gap-8">
           <Link to="/privacy" className="hover:text-[#448cff]">
