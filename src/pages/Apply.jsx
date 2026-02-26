@@ -37,7 +37,6 @@ const Apply = () => {
     postcodeLabel,
     postcodePlaceholder,
     phonePlaceholder,
-    phoneHelper,
     addressPlaceholder,
   } = useSiteSettings();
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -809,7 +808,6 @@ const Apply = () => {
                           type="tel"
                           inputMode="numeric"
                           placeholder=""
-                          helper={phoneHelper}
                           maxLength={20}
                         />
                       </div>
@@ -824,11 +822,6 @@ const Apply = () => {
                             value={user?.email ?? ""}
                             className="w-full p-4 border border-gray-400 rounded-sm outline-none bg-slate-50 font-bold text-slate-700 cursor-not-allowed"
                           />
-                          <p className="text-xs text-slate-500 font-medium">
-                            Your application uses your account email only.{" "}
-                            {postcodeLabel} and phone number required for your
-                            region.
-                          </p>
                         </div>
                         <InputGroup
                           label={`${postcodeLabel} *`}
@@ -856,10 +849,6 @@ const Apply = () => {
                           className="w-full p-4 border border-gray-400 rounded-sm outline-none focus:border-[#448cff] font-medium text-slate-800 placeholder-slate-400"
                           maxLength={500}
                         />
-                        <p className="text-xs text-slate-500 font-medium">
-                          Your full residential address (street, building,
-                          city). Required for your application.
-                        </p>
                       </div>
                     </section>
 
