@@ -925,6 +925,7 @@ const Apply = () => {
                                   "Gutter cleaning",
                                   "Pressure washing",
                                   "Pavement cleaning",
+                                  "Handy man",
                                 ].map((subType) => (
                                   <CheckboxItem
                                     key={subType}
